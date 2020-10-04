@@ -68,27 +68,36 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
             console.log("button clicked");
     
             chrome.tabs.getSelected(null, function(tab) {
-                console.log(tab.url);
-                let page_url = tab.url;
+
+                // Here's we'll make the card contents to POST
                 let data_company = document.getElementById('data_company').value;
-                let description = `The page url is ${tab.url} and company is ${data_company}`;
+                let data_position = document.getElementById('data_position').value;
+                let data_location = document.getElementById('data_location').value;
+                let data_notes = document.getElementById('data_notes').value;
                 idList = document.getElementById('list_options').value;
-    
+
+                let description = encodeURIComponent(`URL: ${tab.url} \n Company: ${data_company} \n Position: ${data_position} \n Location: ${data_location} \n\n Notes: ${data_notes}`);
+
                 fetch(`https://api.trello.com/1/cards?key=${api_key}&token=${token}&idList=${idList}&name=${data_company}&desc=${description}`, {
                 method: 'POST',
                 })
                 .then(response => {
-                    console.log(
-                    `Response: ${response.status} ${response.statusText}`
-                    );
-                    console.log("POSTED");
-                    return response.text();
-                    
+                    console.log("result", response);
+                    if(response.status == 400){
+                        console.log("ure dumb");
+                        // now change divs
+                        let abc = document.getElementById('post_fail');
+                        abc.style.display = 'block';
+                    } else{
+                        console.log("POSTED");
+                        // now change divs
+                        let abc = document.getElementById('post_success');
+                        oauth_ok_div.style.display = 'none';
+                        abc.style.display = 'block';
+                    }
                 })
-                .then(text => console.log(text))
                 .catch(err => console.error(err));
             });
         }, false);
-
     }
 }, false);
