@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
                 let page_url = tab.url;
                 let data_company = document.getElementById('data_company').value;
                 let description = `The page url is ${tab.url} and company is ${data_company}`;
+                idList = document.getElementById('list_options').value;
     
                 fetch(`https://api.trello.com/1/cards?key=${api_key}&token=${token}&idList=${idList}&name=${data_company}&desc=${description}`, {
                 method: 'POST',
