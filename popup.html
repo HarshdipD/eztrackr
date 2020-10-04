@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Jeff job Tracker</title>
+    <script src="popup.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://requirejs.org/docs/release/2.3.6/minified/require.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.3/fetch.js"></script>
+    <style>
+        body{
+            width: 300px;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="container py-2" id="oauth_ok" style="display: none;">
+        <h4>Job Tracker</h4>
+        <form>
+            <div class="form-group">
+                <label>Choose List from your board 'h'</label>
+                <select class="form-control" id="list_options">
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Company</label>
+                <input class="form-control" id="data_company" placeholder="">
+            </div>
+            <div class="form-group">
+                <label>Position</label>
+                <input class="form-control" id="data_position" placeholder="">
+            </div>
+            <div class="form-group">
+                <label>Location</label>
+                <input class="form-control" id="data_location" placeholder="">
+            </div>
+        </form>
+        <button class="btn btn-primary" id="checkPage">Add to trello</button>
+    </div>
+    <div class="container py-2" id="oauth_missing" style="display: none;">
+        <p>bro u havent authorized your trello click on the button to ouath ur trello ok bye</p>
+        <button class="btn btn-secondary">This button doesnt do anything</button>
+    </div>
+  </body>
+</html>
