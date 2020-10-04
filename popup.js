@@ -82,6 +82,10 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
                     `Response: ${response.status} ${response.statusText}`
                     );
                     console.log("POSTED");
+                    // now change divs ok
+                    var abc = document.getElementById('post_success');
+                    oauth_ok_div.style.display = 'none';
+                    abc.style.display = 'block';
                     return response.text();
                     
                 })
