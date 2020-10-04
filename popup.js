@@ -30,6 +30,16 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
         // magic time
         var checkPageButton = document.getElementById('checkPage');
 
+        // yooooo
+        let dropdown = document.getElementById('list_options');
+        dropdown.length = 0;
+        let defaultOption = document.createElement('option');
+        defaultOption.text = 'Choose list';
+        dropdown.add(defaultOption);
+        dropdown.selectedIndex = 0;
+
+        let url_for_list = `https://api.trello.com/1/boards/${board_id}/lists?key=${api_key}&token=${token}`;
+
         // fetches all the lists from the board whose id is ${board_id}
         // this is to be populated in the drop down of the extension
         fetch(`https://api.trello.com/1/boards/${board_id}/lists?key=${api_key}&token=${token}`, {
@@ -39,11 +49,18 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
                 console.log(
                 `Response: ${response.status} ${response.statusText}`
                 );
-                console.log("lists in json format fetched");
-                // to do (HARSHDIP): add these lists with id and names in drop down of id: list_options
-                return response.text();
+                // lists with id and names in drop down of id: list_options
+                response.json().then(function(data) {  
+                    let option;
+                
+                    for (let i = 0; i < data.length; i++) {
+                    option = document.createElement('option');
+                    option.text = data[i].name;
+                    option.value = data[i].id;
+                    dropdown.add(option);
+                    }    
+                });
             })
-            .then(text => console.log(text))
             .catch(err => console.error(err));
     
         // On button click, POST all the field data in trello board
