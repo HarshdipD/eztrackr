@@ -1,0 +1,14 @@
+{
+    "manifest_version": 2,
+    "name": "Job Tracker",
+    "description": "This extension will add job postings in your Trello board",
+    "version": "1.0",
+    "browser_action": {
+        "default_icon": "icon.png",
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "activeTab"
+    ],
+    "content_security_policy": "script-src 'self'  https://maxcdn.bootstrapcdn.com https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.3/fetch.js https://requirejs.org/docs/release/2.3.6/minified/require.js https://cdn.jsdelivr.net/bluebird/3.5.0/bluebird.min.js; object-src 'self'"
+}
