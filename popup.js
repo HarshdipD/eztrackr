@@ -78,18 +78,20 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
                 method: 'POST',
                 })
                 .then(response => {
-                    console.log(
-                    `Response: ${response.status} ${response.statusText}`
-                    );
-                    console.log("POSTED");
-                    // now change divs ok
-                    var abc = document.getElementById('post_success');
-                    oauth_ok_div.style.display = 'none';
-                    abc.style.display = 'block';
-                    return response.text();
-                    
+                    console.log("result", response);
+                    if(response.status == 400){
+                        console.log("ure dumb");
+                        // now change divs
+                        let abc = document.getElementById('post_fail');
+                        abc.style.display = 'block';
+                    } else{
+                        console.log("POSTED");
+                        // now change divs
+                        let abc = document.getElementById('post_success');
+                        oauth_ok_div.style.display = 'none';
+                        abc.style.display = 'block';
+                    }
                 })
-                .then(text => console.log(text))
                 .catch(err => console.error(err));
             });
         }, false);
