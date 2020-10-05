@@ -15,8 +15,8 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
     var oauth_ok_div = document.getElementById('oauth_ok');
     // var board_missing_div = document.getElementById('board_missing');
 
-    let api_key = 'b891af3a0d98ce8944cb61daf088bc8c';
-    let token = '0a657562a468f3b27178d37de7b54c327329542fc0cf9505c208a2ebec4f4f84';
+    let api_key = '';
+    let token = '';
     let idList = '';
     let board_id = '';
 
