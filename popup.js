@@ -13,9 +13,10 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
 
     var oauth_missing_div = document.getElementById('oauth_missing');
     var oauth_ok_div = document.getElementById('oauth_ok');
+    // var board_missing_div = document.getElementById('board_missing');
 
-    let api_key = '';
-    let token = '';
+    let api_key = 'b891af3a0d98ce8944cb61daf088bc8c';
+    let token = '0a657562a468f3b27178d37de7b54c327329542fc0cf9505c208a2ebec4f4f84';
     let idList = '';
     let board_id = '';
 
@@ -23,7 +24,18 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
     if(api_key === "") {
         oauth_missing_div.style.display = 'block';
         //TODO NOW HERE WE AUTHORIZE THE USER OK
-    } else {
+    } 
+    // else if(board_id === '') {
+    //     // TO DO: we need to find a way to update board id
+    //     // we ask user to connect a board or let us create a new one!
+    //     board_missing_div.style.display = 'block';
+    //     var createBoardButton = document.getElementById('create_board');
+    //     createBoardButton.addEventListener('click', function() {
+    //         console.log("create board process");
+    //     });
+
+    // } 
+    else { // user has board set, lets get to it!
 
         oauth_ok_div.style.display = 'block';
 
@@ -37,8 +49,6 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
         defaultOption.text = 'Choose list';
         dropdown.add(defaultOption);
         dropdown.selectedIndex = 0;
-
-        let url_for_list = `https://api.trello.com/1/boards/${board_id}/lists?key=${api_key}&token=${token}`;
 
         // fetches all the lists from the board whose id is ${board_id}
         // this is to be populated in the drop down of the extension
