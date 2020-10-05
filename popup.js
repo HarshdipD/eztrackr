@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
      - idList is a temporary variable for testing purposes. This is supposed to be automatically fetched when extension is clicked
      - board_id is the id of the board that is to be populated. This needs to be setup permanently so user doesn't have to choose it everytime
 
-    */ 
+    */
 
     var oauth_missing_div = document.getElementById('oauth_missing');
     var oauth_ok_div = document.getElementById('oauth_ok');
@@ -20,11 +20,20 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
     let idList = '';
     let board_id = '';
 
-    // if not authorized 
+    // if not authorized
     if(api_key === "") {
         oauth_missing_div.style.display = 'block';
-        //TODO NOW HERE WE AUTHORIZE THE USER OK
-    } 
+        Trello.authorize({
+          type: 'popup',
+          name: "Job Tracker",
+          scope: {
+            read: true, write: true, account: true
+          },
+          expiration: 'never',
+          // success: authenticationSuccess,
+          // error: authenticationFailure
+        });
+    }
     // else if(board_id === '') {
     //     // TO DO: we need to find a way to update board id
     //     // we ask user to connect a board or let us create a new one!
@@ -34,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
     //         console.log("create board process");
     //     });
 
-    // } 
+    // }
     else { // user has board set, lets get to it!
 
         oauth_ok_div.style.display = 'block';
@@ -60,23 +69,23 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
                 `Response: ${response.status} ${response.statusText}`
                 );
                 // lists with id and names in drop down of id: list_options
-                response.json().then(function(data) {  
+                response.json().then(function(data) {
                     let option;
-                
+
                     for (let i = 0; i < data.length; i++) {
                     option = document.createElement('option');
                     option.text = data[i].name;
                     option.value = data[i].id;
                     dropdown.add(option);
-                    }    
+                    }
                 });
             })
             .catch(err => console.error(err));
-    
+
         // On button click, POST all the field data in trello board
         checkPageButton.addEventListener('click', function() {
             console.log("button clicked");
-    
+
             chrome.tabs.getSelected(null, function(tab) {
 
                 // Here's we'll make the card contents to POST
