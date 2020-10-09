@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
 
     function board_create_function(){
         board_missing_div.style.display = 'block';
+        oauth_ok_div.style.display = 'none';
 
         create_board.addEventListener('click', function() {
 
@@ -36,15 +37,15 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
                 { 
                     localStorage.setItem('board_id', response.id);
                     board_id = localStorage.getItem('board_id');
-                    await Trello.post(`/lists?token=${token}&name=Offer&idBoard=${board_id}`);
+                    Trello.post(`/lists?token=${token}&name=Offer&idBoard=${board_id}`);
                     await Trello.post(`/lists?token=${token}&name=Reject&idBoard=${board_id}`);
                     await Trello.post(`/lists?token=${token}&name=InProgress&idBoard=${board_id}`);
                     await Trello.post(`/lists?token=${token}&name=Applied&idBoard=${board_id}`);
                     await Trello.post(`/lists?token=${token}&name=Wishlist&idBoard=${board_id}`);
                     document.getElementById("create_board").innerHTML = "Done!";
-                    await working();
+                    working();
                 })
-            .catch(error => console(error));
+            .catch(error => console.log(error));
         });
     }
 
