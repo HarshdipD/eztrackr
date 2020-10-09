@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() { // this function  starts when extension is clicked
 
+    // setting global variables
     Trello.setKey(APP_KEY);
     var token = localStorage.getItem('trello_token');
     var board_id = localStorage.getItem('board_id');
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
 
             document.getElementById("create_board").innerHTML = "creating...";
 
+            // create a new board and add lists to it
             Trello.post(`/boards?token=${token}&name=Full time Hunt`)
             .then(async (response) => 
                 { 
