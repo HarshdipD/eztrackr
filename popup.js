@@ -17,7 +17,13 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
     }
     // if board does not exist, create one and add it to local storage
     else if(!board_id) {
+        board_create_function();
+    }
+    else {
+        working();
+    }
 
+    function board_create_function(){
         board_missing_div.style.display = 'block';
 
         create_board.addEventListener('click', function() {
@@ -30,19 +36,16 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
                 { 
                     localStorage.setItem('board_id', response.id);
                     board_id = localStorage.getItem('board_id');
-                    Trello.post(`/lists?token=${token}&name=Offer&idBoard=${board_id}`);
-                    Trello.post(`/lists?token=${token}&name=Reject&idBoard=${board_id}`);
-                    Trello.post(`/lists?token=${token}&name=InProgress&idBoard=${board_id}`);
-                    Trello.post(`/lists?token=${token}&name=Applied&idBoard=${board_id}`);
-                    Trello.post(`/lists?token=${token}&name=Wishlist&idBoard=${board_id}`);
+                    await Trello.post(`/lists?token=${token}&name=Offer&idBoard=${board_id}`);
+                    await Trello.post(`/lists?token=${token}&name=Reject&idBoard=${board_id}`);
+                    await Trello.post(`/lists?token=${token}&name=InProgress&idBoard=${board_id}`);
+                    await Trello.post(`/lists?token=${token}&name=Applied&idBoard=${board_id}`);
+                    await Trello.post(`/lists?token=${token}&name=Wishlist&idBoard=${board_id}`);
                     document.getElementById("create_board").innerHTML = "Done!";
-                    working();
+                    await working();
                 })
             .catch(error => console(error));
         });
-    }
-    else {
-        working();
     }
 
     function working(){    
@@ -73,11 +76,13 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
                     dropdown.add(option);
                 }
             })
-            .catch(err => console.log("user has deleted the board manually."));
+            .catch(err => {
+                console.log("user has deleted the board manually.");
+                board_create_function();
+            });
     
         // On button click, POST all the field data in trello board
         checkPageButton.addEventListener('click', function() {
-            console.log("button clicked");
     
             chrome.tabs.getSelected(null, function(tab) {
 
@@ -90,13 +95,11 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
 
                 let description = encodeURIComponent(`URL: ${tab.url} \n Company: ${data_company} \n Position: ${data_position} \n Location: ${data_location} \n\n Notes: ${data_notes}`);
 
-                fetch(`https://api.trello.com/1/cards?key=${APP_KEY}&token=${token}&idList=${idList}&name=${data_company}&desc=${description}`, {
-                method: 'POST',
-                })
+                Trello.post(`/cards?key=${APP_KEY}&token=${token}&idList=${idList}&name=${data_company}&desc=${description}`)
                 .then(response => {
                     console.log("result", response);
                     if(response.status == 400 || response.status == 401){
-                        console.log("ure dumb");
+                        console.log("error error");
                         // now change divs
                         let abc = document.getElementById('post_fail');
                         abc.style.display = 'block';
