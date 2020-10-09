@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
             document.getElementById("create_board").innerHTML = "creating...";
 
             Trello.post(`/boards?token=${token}&name=Full time Hunt`)
-            .then((response) => 
+            .then(async (response) => 
                 { 
                     localStorage.setItem('board_id', response.id);
                     board_id = localStorage.getItem('board_id');
@@ -33,14 +33,9 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
                     Trello.post(`/lists?token=${token}&name=InProgress&idBoard=${board_id}`);
                     Trello.post(`/lists?token=${token}&name=Applied&idBoard=${board_id}`);
                     Trello.post(`/lists?token=${token}&name=Wishlist&idBoard=${board_id}`);
-                    console.log("wow");
-            })
-            .then(
-                document.getElementById("create_board").innerHTML = "Done!"
-            )
-            .then(
-                working()
-            )
+                    document.getElementById("create_board").innerHTML = "Done!";
+                    working();
+                })
             .catch(error => console(error));
         });
     }
@@ -53,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
         board_id = localStorage.getItem('board_id');
 
         oauth_ok_div.style.display = 'block';
+        board_missing_div.style.display = 'none';
 
         let dropdown = document.getElementById('list_options');
         dropdown.length = 0;
