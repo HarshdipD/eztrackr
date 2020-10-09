@@ -47,24 +47,10 @@
         <button class="btn btn-primary" id="checkPage">Add to trello</button>
         <p><small><a href="https://hsdeogan.com" target="_blank" class="text-dark">Website</a> | <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ZBR894KSWNJPS&currency_code=CAD" target="_blank" class="text-dark">Donate</a></small></p>
     </div>
-    <div class="container py-2" id="oauth_missing" style="display: none;">
-        <p>bro u havent authorized your trello click on the button to ouath ur trello ok bye</p>
-        <button class="btn btn-secondary">This button doesnt do anything</button>
+    <div class="container py-2" id="board_missing" style="display: none;">
+        <p>Looks like you don't have a board set up. Click the button below and we'll create for you! Once created, you can check it at <a href="https://trello.com/" target="_blank">Trello's website</a></p>
+        <button class="btn btn-success" id="create_board">Create</button>
     </div>
-    <!-- <div class="container py-2" id="board_missing" style="display: none;">
-        <p>bro connect a trello board or let me make one</p>
-        <form>
-            <select class="form-control" id="list_of_boards">
-                <option>this</option>
-                <option>or this</option>
-            </select>
-        </form>
-        <br>
-        <button class="btn btn-primary" id="choose_board">Choose this board</button>
-        <hr>
-        <button class="btn btn-success" id="create_board">Make a job board for me</button>
-        <p><small>Note: You cannot change your board after this screen.</small</p>
-    </div> -->
 
     <!-- successfully posted alert -->
     <div class="alert alert-success" id="post_success" role="alert" style="display: none;">
