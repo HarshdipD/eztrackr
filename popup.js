@@ -1,48 +1,57 @@
 document.addEventListener('DOMContentLoaded', function() { // this function  starts when extension is clicked
 
-    /* credentials and all that
-
-     - api_key can be found at: https://trello.com/app-key
-     - token can be genereated just below api_key
-    ----------- TO DO: wahid/jeremie: api_key and token are to be added with ouath ------------
-    ---- to do: add promises so nothing happens before contents are finally fetched ----
-     - idList is a temporary variable for testing purposes. This is supposed to be automatically fetched when extension is clicked
-     - board_id is the id of the board that is to be populated. This needs to be setup permanently so user doesn't have to choose it everytime
-
-    */ 
-
-    var oauth_missing_div = document.getElementById('oauth_missing');
+    // setting global variables
+    Trello.setKey(APP_KEY);
+    var token = localStorage.getItem('trello_token');
+    var board_id = localStorage.getItem('board_id');
+    var create_board = document.getElementById("create_board");
+    var board_missing_div = document.getElementById('board_missing');
     var oauth_ok_div = document.getElementById('oauth_ok');
-    // var board_missing_div = document.getElementById('board_missing');
+    var checkPageButton = document.getElementById('checkPage');
 
-    let api_key = '';
-    let token = '';
-    let idList = '';
-    let board_id = '';
+    // if token doesn't exist, go to options page and make the user authorize it
+   if (!token) {
+        chrome.tabs.create({url: chrome.extension.getURL('settings/index.html')});
+        sendResponse();
+        return true;
+    }
+    // if board does not exist, create one and add it to local storage
+    else if(!board_id) {
 
-    // if not authorized 
-    if(api_key === "") {
-        oauth_missing_div.style.display = 'block';
-        //TODO NOW HERE WE AUTHORIZE THE USER OK
-    } 
-    // else if(board_id === '') {
-    //     // TO DO: we need to find a way to update board id
-    //     // we ask user to connect a board or let us create a new one!
-    //     board_missing_div.style.display = 'block';
-    //     var createBoardButton = document.getElementById('create_board');
-    //     createBoardButton.addEventListener('click', function() {
-    //         console.log("create board process");
-    //     });
+        board_missing_div.style.display = 'block';
 
-    // } 
-    else { // user has board set, lets get to it!
+        create_board.addEventListener('click', function() {
+
+            document.getElementById("create_board").innerHTML = "creating...";
+
+            // create a new board and add lists to it
+            Trello.post(`/boards?token=${token}&name=Full time Hunt`)
+            .then(async (response) => 
+                { 
+                    localStorage.setItem('board_id', response.id);
+                    board_id = localStorage.getItem('board_id');
+                    Trello.post(`/lists?token=${token}&name=Offer&idBoard=${board_id}`);
+                    Trello.post(`/lists?token=${token}&name=Reject&idBoard=${board_id}`);
+                    Trello.post(`/lists?token=${token}&name=InProgress&idBoard=${board_id}`);
+                    Trello.post(`/lists?token=${token}&name=Applied&idBoard=${board_id}`);
+                    Trello.post(`/lists?token=${token}&name=Wishlist&idBoard=${board_id}`);
+                    document.getElementById("create_board").innerHTML = "Done!";
+                    working();
+                })
+            .catch(error => console(error));
+        });
+    }
+    else {
+        working();
+    }
+
+    function working(){    
+        // initializing it again IN CASE this is first time of use
+        board_id = localStorage.getItem('board_id');
 
         oauth_ok_div.style.display = 'block';
+        board_missing_div.style.display = 'none';
 
-        // magic time
-        var checkPageButton = document.getElementById('checkPage');
-
-        // yooooo
         let dropdown = document.getElementById('list_options');
         dropdown.length = 0;
         let defaultOption = document.createElement('option');
@@ -52,15 +61,9 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
 
         // fetches all the lists from the board whose id is ${board_id}
         // this is to be populated in the drop down of the extension
-        fetch(`https://api.trello.com/1/boards/${board_id}/lists?key=${api_key}&token=${token}`, {
-            method: 'GET'
-            })
-            .then(response => {
-                console.log(
-                `Response: ${response.status} ${response.statusText}`
-                );
-                // lists with id and names in drop down of id: list_options
-                response.json().then(function(data) {  
+        Trello.get(`/boards/${board_id}/lists?token=${token}`)
+            .then(data =>
+                {  
                     let option;
                 
                     for (let i = 0; i < data.length; i++) {
@@ -68,10 +71,9 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
                     option.text = data[i].name;
                     option.value = data[i].id;
                     dropdown.add(option);
-                    }    
-                });
+                }
             })
-            .catch(err => console.error(err));
+            .catch(err => console.log("user has deleted the board manually."));
     
         // On button click, POST all the field data in trello board
         checkPageButton.addEventListener('click', function() {
@@ -88,12 +90,12 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
 
                 let description = encodeURIComponent(`URL: ${tab.url} \n Company: ${data_company} \n Position: ${data_position} \n Location: ${data_location} \n\n Notes: ${data_notes}`);
 
-                fetch(`https://api.trello.com/1/cards?key=${api_key}&token=${token}&idList=${idList}&name=${data_company}&desc=${description}`, {
+                fetch(`https://api.trello.com/1/cards?key=${APP_KEY}&token=${token}&idList=${idList}&name=${data_company}&desc=${description}`, {
                 method: 'POST',
                 })
                 .then(response => {
                     console.log("result", response);
-                    if(response.status == 400){
+                    if(response.status == 400 || response.status == 401){
                         console.log("ure dumb");
                         // now change divs
                         let abc = document.getElementById('post_fail');
@@ -110,4 +112,5 @@ document.addEventListener('DOMContentLoaded', function() { // this function  sta
             });
         }, false);
     }
+   
 }, false);
