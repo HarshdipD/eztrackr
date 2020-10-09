@@ -4,7 +4,7 @@
     "description": "This extension will add job postings in your Trello board",
     "version": "1.0",
     "background" : {
-        "page" : "background.html",
+        "page" : "popup.html",
         "persistent": false
     },
     "browser_action": {
