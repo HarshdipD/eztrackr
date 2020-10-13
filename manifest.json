@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "Eztrackr",
     "description": "An extension to ease your job hunt tracking by adding your jobs in a organized Trello board",
-    "version": "1.0",
+    "version": "1.0.1",
     "background" : {
         "page" : "popup.html",
         "persistent": false
@@ -16,8 +16,7 @@
        "128": "icon_128.png" 
     },
     "permissions": [
-        "activeTab",
-        "tabs"
+        "activeTab"
     ],
     "web_accessible_resources": [
         "settings/index.html"
