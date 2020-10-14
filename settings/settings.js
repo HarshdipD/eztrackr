@@ -4,7 +4,7 @@ function init() {
     if (HashSearch.keyExists('token')) {
         Trello.authorize(
             {
-                name: "job tracker",
+                name: "Eztrackr",
                 expiration: "never",
                 interactive: false,
                 scope: {read: true, write: true},
@@ -33,7 +33,7 @@ function init() {
         Trello.setKey(APP_KEY);
         Trello.authorize(
             {
-                name: "Trello Helper Extension",
+                name: "Eztrackr",
                 type: "redirect",
                 expiration: "never",
                 interactive: true,
