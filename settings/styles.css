@@ -8,38 +8,19 @@
     padding: 0;
 }
 
-#red {
+.red {
     color: #F00;
 }
 
-#black {
+.black {
     color: #000;
 }
 
 .link {
-    text-decoration: none;
-    color: #000;
-    padding: 0.75rem;
-}
-
-.btn {
-    padding: 0.5rem 1rem;
-    background-color: var(--primary-color);
-    color: #000;
-    font-size: 1rem;
-    font-weight: bold;
-}
-
-.btn:hover {
-    filter: brightness(110%);
-}
-
-.link:hover {
-    background: var(--secondary-color);
+    padding: 0.5rem;
 }
 
 html, body {
-    font-family: Arial, Helvetica, sans-serif;
     background: var(--secondary-color);
     min-width: 230px;
 }
@@ -53,9 +34,7 @@ html, body {
 
 header {
     padding: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    text-align: center;
     background-color: var(--primary-color);
 }
 
@@ -84,8 +63,7 @@ main span {
 }
 
 footer {
-    background: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding: 0.5rem;
+    background: var(--secondary-color);
+    text-align: center;
 }

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="popup.js"></script>
     <script src="https://requirejs.org/docs/release/2.3.6/minified/require.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.3/fetch.js"></script>
@@ -12,19 +13,19 @@
   <body>
     <div id="container">
         <header>
-          <h1><span id="red">Ez</span><span id="black">trackr</span></h1>
+          <h1><span class="red">Ez</span><span class="black">trackr</span></h1>
         </header>
         <main>
           <section id="loggedin">
             <p>Click the button to logout of Trello</p>
-            <button class="btn" id="trello_helper_login">Logout</button>
+            <button class="btn btn-primary" id="trello_helper_login">Logout</button>
           </section>
           <section id="loggedout">
             <p>
               <span>Please click the button to authorize Trello so we can save the cards for you!</span>
               <span>Once authorized, click on the extension again.</span>
             </p>
-            <button class="btn" id="trello_helper_logout">Authorize</button>
+            <button class="btn btn-primary" id="trello_helper_logout">Authorize</button>
           </section>
         </main>
         <footer>
