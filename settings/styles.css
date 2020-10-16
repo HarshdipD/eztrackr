@@ -38,16 +38,11 @@ header {
     background-color: var(--primary-color);
 }
 
-header h1 {
-    font-size: 2.5rem;
-}
-
 main {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: x-large;
 }
 
 main button {
@@ -63,7 +58,7 @@ main span {
 }
 
 footer {
-    padding: 0.5rem;
+    padding: 1rem;
     background: var(--secondary-color);
     text-align: center;
 }
