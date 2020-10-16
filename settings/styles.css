@@ -1,0 +1,91 @@
+:root {
+    --primary-color: #6FA8DC;
+    --secondary-color: #dfdfdf;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#red {
+    color: #F00;
+}
+
+#black {
+    color: #000;
+}
+
+.link {
+    text-decoration: none;
+    color: #000;
+    padding: 0.75rem;
+}
+
+.btn {
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+    color: #000;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.btn:hover {
+    filter: brightness(110%);
+}
+
+.link:hover {
+    background: var(--secondary-color);
+}
+
+html, body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--secondary-color);
+    min-width: 230px;
+}
+
+#container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+header {
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary-color);
+}
+
+header h1 {
+    font-size: 2.5rem;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: x-large;
+}
+
+main button {
+    margin: 1.5rem 0;
+}
+
+#loggedin, #loggedout {
+    text-align: center;
+}
+
+main span {
+    display: block;
+}
+
+footer {
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
