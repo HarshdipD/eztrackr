@@ -1,0 +1,64 @@
+:root {
+    --primary-color: #6FA8DC;
+    --secondary-color: #dfdfdf;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.red {
+    color: #F00;
+}
+
+.black {
+    color: #000;
+}
+
+.link {
+    padding: 0.5rem;
+}
+
+html, body {
+    background: var(--secondary-color);
+    min-width: 230px;
+}
+
+#container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+header {
+    padding: 2rem;
+    text-align: center;
+    background-color: var(--primary-color);
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+main button {
+    margin: 1.5rem 0;
+}
+
+#loggedin, #loggedout {
+    text-align: center;
+}
+
+main span {
+    display: block;
+}
+
+footer {
+    padding: 1rem;
+    background: var(--secondary-color);
+    text-align: center;
+}
