@@ -1,3 +1,18 @@
+// Adding Analytics Code
+
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', AnalyticsCode]);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script');
+  ga.type = 'text/javascript';
+  ga.async = true;
+  ga.src = 'https://ssl.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(ga, s);
+})();
+
 document.addEventListener('DOMContentLoaded', function () { // this function  starts when extension is clicked
 
     // setting global variables
@@ -90,6 +105,9 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
 
         // On button click, POST all the field data in trello board
         checkPageButton.addEventListener('click', function () {
+
+            // Button Click Event
+            _gaq.push(['_trackEvent', 'Add To Trello', 'clicked']);
 
             chrome.tabs.getSelected(null, function (tab) {
 
