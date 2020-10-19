@@ -83,10 +83,52 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
                 console.log("user has deleted the board manually.");
                 board_create_function();
             });
-
+        
+        // Populating Fields
         chrome.tabs.getSelected(null, function (tab) {
             document.getElementById('data_url').value = tab.url;
         });
+
+        function getFieldsFromDOM() {
+            var fields = []
+            
+            //Account for Companies which have no URL/Link
+            try {
+                var url = document.getElementsByClassName("jobs-details-top-card__company-url")[0].innerText.trim();
+            } catch {
+
+            }
+            if (url) {
+                fields.push(document.getElementsByClassName("jobs-details-top-card__company-url")[0].innerText.trim())
+            } else {
+                var childNodes = document.getElementsByClassName("jobs-details-top-card__company-info")[0].childNodes;
+                result = '';
+            
+                for (var i = 0; i < childNodes.length; i++) {
+                    if(childNodes[i].nodeType == 3) {
+                        result += childNodes[i].data;
+                    }
+                }
+
+                fields.push(result.trim())
+            }
+
+
+            fields.push(document.getElementsByClassName("jobs-details-top-card__job-title")[0].innerText.trim())
+            fields.push(document.getElementsByClassName("jobs-details-top-card__bullet")[0].innerText.trim())
+            
+            return fields
+        }
+        chrome.tabs.executeScript({
+            code: '(' + getFieldsFromDOM +')();'
+        }, (results) => {
+            document.getElementById('data_company').value = results[0][0]
+            document.getElementById('data_position').value = results[0][1]
+            document.getElementById('data_location').value = results[0][2]
+        });
+
+        // END POPULATING FIELDS
+
 
         // On button click, POST all the field data in trello board
         checkPageButton.addEventListener('click', function () {
