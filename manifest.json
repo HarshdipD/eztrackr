@@ -17,7 +17,6 @@
        "128": "icons/icon_128.png" 
     },
     "permissions": [
-        "*://linkedin.com/*",
         "activeTab"
     ],
     "web_accessible_resources": [

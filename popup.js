@@ -91,32 +91,26 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
 
         function getFieldsFromDOM() {
             var fields = []
-            
             //Account for Companies which have no URL/Link
             try {
                 var url = document.getElementsByClassName("jobs-details-top-card__company-url")[0].innerText.trim();
             } catch {
-
             }
             if (url) {
                 fields.push(document.getElementsByClassName("jobs-details-top-card__company-url")[0].innerText.trim())
             } else {
                 var childNodes = document.getElementsByClassName("jobs-details-top-card__company-info")[0].childNodes;
                 result = '';
-            
                 for (var i = 0; i < childNodes.length; i++) {
                     if(childNodes[i].nodeType == 3) {
                         result += childNodes[i].data;
                     }
                 }
-
                 fields.push(result.trim())
             }
-
-
             fields.push(document.getElementsByClassName("jobs-details-top-card__job-title")[0].innerText.trim())
-            fields.push(document.getElementsByClassName("jobs-details-top-card__bullet")[0].innerText.trim())
-            
+            fields.push(document.getElementsByClassName("jobs-details-top-card__bullet")[0].innerText.trim())   
+                  
             return fields
         }
         chrome.tabs.executeScript({
