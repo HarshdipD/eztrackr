@@ -19,7 +19,7 @@ If you're here to help contribute, here are a few steps on how to set this exten
 1. Make sure you have enabled developer mode in Chrome at `chrome://extensions`
 2. Clone this repo, and press 'Load unpacked' to load this extension
 3. Go to key.js and replace the field of `api_key`. It can found out at https://trello.com/app-key
-4. Add the Chrome extension ID to Allowed origins section in the same Trello page
+4. Add the Chrome extension ID to Allowed origins section in the same Trello page (eg. `chrome-extension://okpdemdmpglaapjpbdphmfhlfjbilbpc`)
 
 That's it! You should be able to use the extension and see your cards being saved on Trello. 
 Note: If you skip the 4th step, you will recieve an invalid redirect error. 

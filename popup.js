@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
             document.getElementById("create_board").innerHTML = "creating...";
 
             // create a new board and add lists to it
-            Trello.post(`/boards?token=${token}&name=Full time Hunt`)
+            Trello.post(`/boards?token=${token}&name=Full time Hunt&defaultLists=false`)
                 .then(async (response) => {
                     localStorage.setItem('board_id', response.id);
                     board_id = localStorage.getItem('board_id');
