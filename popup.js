@@ -90,15 +90,13 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
         });
 
         function getFieldsFromDOM() {
-            var fields = []
+            let fields = []
             //Account for Companies which have no URL/Link
             try {
-                var url = document.getElementsByClassName("jobs-details-top-card__company-url")[0].innerText.trim();
+                let url = document.getElementsByClassName("jobs-details-top-card__company-url")[0].innerText.trim();
+                fields.push(url)
+                // fields.push(document.getElementsByClassName("jobs-details-top-card__company-url")[0].innerText.trim())
             } catch {
-            }
-            if (url) {
-                fields.push(document.getElementsByClassName("jobs-details-top-card__company-url")[0].innerText.trim())
-            } else {
                 var childNodes = document.getElementsByClassName("jobs-details-top-card__company-info")[0].childNodes;
                 result = '';
                 for (var i = 0; i < childNodes.length; i++) {
