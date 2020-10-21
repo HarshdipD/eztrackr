@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
     var board_missing_div = document.getElementById('board_missing');
     var oauth_ok_div = document.getElementById('oauth_ok');
     var checkPageButton = document.getElementById('checkPage');
+    var alertBox = document.getElementById('alert_box');
+    var alertBoxButton = document.getElementById('close_alert');
     var today = new Date();
     const monthNames = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
@@ -147,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
                 console.log("user has deleted the board manually.");
                 board_set_up_function();
             });
-        
+
         // Populating Fields
         chrome.tabs.getSelected(null, function (tab) {
             document.getElementById('data_url').value = tab.url;
@@ -164,19 +166,19 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
                 var childNodes = document.getElementsByClassName("jobs-details-top-card__company-info")[0].childNodes;
                 result = '';
                 for (var i = 0; i < childNodes.length; i++) {
-                    if(childNodes[i].nodeType == 3) {
+                    if (childNodes[i].nodeType == 3) {
                         result += childNodes[i].data;
                     }
                 }
                 fields.push(result.trim())
             }
             fields.push(document.getElementsByClassName("jobs-details-top-card__job-title")[0].innerText.trim())
-            fields.push(document.getElementsByClassName("jobs-details-top-card__bullet")[0].innerText.trim())   
-                  
+            fields.push(document.getElementsByClassName("jobs-details-top-card__bullet")[0].innerText.trim())
+
             return fields
         }
         chrome.tabs.executeScript({
-            code: '(' + getFieldsFromDOM +')();'
+            code: '(' + getFieldsFromDOM + ')();'
         }, (results) => {
             document.getElementById('data_company').value = results[0][0]
             document.getElementById('data_position').value = results[0][1]
@@ -205,25 +207,46 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
 
                 let description = encodeURIComponent(`URL: ${data_url} \n Company: ${data_company} \n Position: ${data_position} \n Location: ${data_location} \n Date Applied: ${date_applied} \n\n Notes: ${data_notes}`);
 
-                Trello.post(`/cards?key=${APP_KEY}&token=${token}&idList=${idList}&name=${data_company}&desc=${description}`)
-                    .then(response => {
-                        console.log("result", response);
-                        if (response.status == 400 || response.status == 401 || response.status == 403) {
-                            console.log("error error");
-                            // now change divs
-                            let abc = document.getElementById('post_fail');
-                            abc.style.display = 'block';
-                        } else {
-                            console.log("POSTED");
-                            // now change divs
-                            let abc = document.getElementById('post_success');
-                            oauth_ok_div.style.display = 'none';
-                            abc.style.display = 'block';
-                        }
-                    })
-                    .catch(err => console.error(err));
+                if (idList != 'Choose list') {
+                    Trello.post(`/cards?key=${APP_KEY}&token=${token}&idList=${idList}&name=${data_company}&desc=${description}`)
+                        .then(response => {
+                            console.log("result", response);
+                            if (response.status == 400 || response.status == 401 || response.status == 403) {
+                                console.log("error error");
+                                // now change divs
+                                displayError('There was an issue posting this card to Trello. Please try again.');
+                            } else {
+                                console.log("POSTED");
+                                // now change divs
+                                let abc = document.getElementById('post_success');
+                                oauth_ok_div.style.display = 'none';
+                                abc.style.display = 'block';
+                            }
+                        })
+                        .catch(err => console.error(err));
+                } else {
+                    console.log("no list selected");
+                    displayError('Trello list must be chosen before adding a new card');
+                    document.getElementById('list_options').focus();
+                }
             });
         }, false);
+
+        function displayError(txt) {
+            let msg = document.getElementById('alert_msg');
+            msg.innerHTML = txt;
+            alertBox.style.display = 'block';
+        }
+
+        function closeAlert() {
+            alertBox.style.display = 'none';
+        }
+
+        alertBoxButton.addEventListener('click', function () {
+            closeAlert();
+        });
+
+        document.getElementById('list_options').addEventListener("change", closeAlert);
     }
 
 }, false);

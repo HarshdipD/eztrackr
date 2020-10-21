@@ -18,10 +18,11 @@
     <div class="container py-2" id="oauth_ok" style="display: none;">
         <h4 class="display-4">Eztrackr</h4>
 
-        <!-- failed posted alert -->
-        <div class="alert alert-danger" id="post_fail" role="alert" style="display: none;">
+        <!-- alert box -->
+        <div class="alert alert-danger" id="alert_box" role="alert" style="display: none;">
             <h4 class="alert-heading">Error</h4>
-            <p>There was an issue posting this card to Trello. Please try again.</p>
+            <p id="alert_msg"></p>
+            <button class="btn btn-danger btn-sm" id="close_alert">Close</button>
         </div>
 
         <!-- main form -->
@@ -59,10 +60,11 @@
 
     <!-- Set up a board for first time user -->
     <div class="container py-2" id="board_missing" style="display: none;">
-        <p>Looks like you don't have a board set up. We can create one for you or you can choose one of your existing
+        <p>Looks like you don't have a board set up. We can create one for you or you can choose one of your
+            existing
             boards.
             If you choose to create a new one, you can check it at <a href="https://trello.com/"
-                target="_blank">Trello's website</a> once created. 
+                target="_blank">Trello's website</a> once created.
         </p>
         <form>
             <div class="form-check form-check-inline mb-2">
