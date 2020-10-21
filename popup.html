@@ -16,11 +16,10 @@
     <div class="container py-2" id="oauth_ok" style="display: none;">
         <h4 class="display-4">Eztrackr</h4>
 
-        <!-- alert box -->
-        <div class="alert alert-danger" id="alert_box" role="alert" style="display: none;">
-          <h4 class="alert-heading">Error</h4>
-          <p id="alert_msg"></p>
-          <button class="btn btn-danger btn-sm" id="close_alert">Close</button>
+        <!-- failed posted alert -->
+        <div class="alert alert-danger" id="post_fail" role="alert" style="display: none;">
+            <h4 class="alert-heading">Error</h4>
+            <p>There was an issue posting this card to Trello. Please try again.</p>
         </div>
         <form>
             <div class="form-group">
