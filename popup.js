@@ -186,6 +186,9 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
         // On button click, POST all the field data in trello board
         checkPageButton.addEventListener('click', function () {
 
+            // Button Click Event
+            _gaq.push(['_trackEvent', 'Add To Trello', 'clicked']);
+
             chrome.tabs.getSelected(null, function (tab) {
 
                 // Here's we'll make the card contents to POST
