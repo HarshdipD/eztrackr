@@ -30,6 +30,10 @@ function init() {
 
     // Log in button
     $("#trello_helper_logout").click(function () {
+
+        // Authorize Button Click Event
+        _gaq.push(['_trackEvent', 'Authorize Button', 'clicked']);
+
         Trello.setKey(APP_KEY);
         Trello.authorize(
             {
