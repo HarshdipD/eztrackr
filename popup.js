@@ -19,10 +19,19 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
     ];
     const trelloBoardUrlPattern = /https\:\/\/trello\.com\/b\/(.{8})(\/.*)?$/;
 
+
+    // Create or Set up a board
+
     create_board.addEventListener('click', function () {
         board_url_div.style.display = "none";
         clear_board_url_data();
     });
+
+    function clear_board_url_data() {
+        board_url_error.innerHTML = '';
+        board_url.classList.remove("is-invalid");
+        board_url.value = '';
+    }
 
     use_existing_board.addEventListener('click', function () {
         board_url_div.style.display = "block";
@@ -105,12 +114,6 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
         board_url_error.innerHTML = message;
         board_url.classList.add("is-invalid");
         document.getElementById("set_board").innerHTML = "Done";
-    }
-
-    function clear_board_url_data() {
-        board_url_error.innerHTML = '';
-        board_url.classList.remove("is-invalid");
-        board_url.value = ''
     }
 
     function working() {
