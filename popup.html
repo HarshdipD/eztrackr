@@ -1,18 +1,20 @@
 <!doctype html>
 <html>
-  <head>
+
+<head>
     <title>Eztrackr</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://requirejs.org/docs/release/2.3.6/minified/require.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.3/fetch.js"></script>
     <style>
-        body{
+        body {
             width: 300px;
             zoom: 0.8;
         }
     </style>
-  </head>
-  <body>
+</head>
+
+<body>
     <div class="container py-2" id="oauth_ok" style="display: none;">
         <h4 class="display-4">Eztrackr</h4>
 
@@ -21,6 +23,8 @@
             <h4 class="alert-heading">Error</h4>
             <p>There was an issue posting this card to Trello. Please try again.</p>
         </div>
+
+        <!-- main form -->
         <form>
             <div class="form-group">
                 <label>Choose List from your board 'Full time Hunt'</label>
@@ -49,23 +53,31 @@
             </div>
         </form>
         <button class="btn btn-primary" id="checkPage">Add to trello</button>
-        <p><small><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ZBR894KSWNJPS&currency_code=CAD" target="_blank" class="text-dark">Donate</a></small></p>
+        <p><small><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ZBR894KSWNJPS&currency_code=CAD"
+                    target="_blank" class="text-dark">Donate</a></small></p>
     </div>
+
+    <!-- Set up a board for first time user -->
     <div class="container py-2" id="board_missing" style="display: none;">
-        <p>Looks like you don't have a board set up. We can create one for you or you can choose one of your existing boards.
-            If you choose to create a new one, you can check it at <a href="https://trello.com/" target="_blank">Trello's website</a> once created
+        <p>Looks like you don't have a board set up. We can create one for you or you can choose one of your existing
+            boards.
+            If you choose to create a new one, you can check it at <a href="https://trello.com/"
+                target="_blank">Trello's website</a> once created. 
         </p>
         <form>
             <div class="form-check form-check-inline mb-2">
-                <input class="form-check-input" type="radio" id="create_board" name="board_choice" value="create_board" checked>
+                <input class="form-check-input" type="radio" id="create_board" name="board_choice" value="create_board"
+                    checked>
                 <label class="form-check-label" for="create_board">Create board</label>
             </div>
             <div class="form-check form-check-inline mb-2">
-                <input class="form-check-input" type="radio" id="use_existing_board" name="board_choice" value="use_existing_board">
+                <input class="form-check-input" type="radio" id="use_existing_board" name="board_choice"
+                    value="use_existing_board">
                 <label class="form-check-label" for="use_existing_board">Use my board</label><br>
             </div>
             <div class="form-group" id="board_url_div" style="display: none;">
-                <input type="url" class="form-control mt-2 mb-2" id="board_url" placeholder="https://trello.com/b/my_board_id" autocomplete="off">
+                <input type="url" class="form-control mt-2 mb-2" id="board_url"
+                    placeholder="https://trello.com/b/my_board_id" autocomplete="off">
                 <span id="board_url_error" class="text-danger"></span>
             </div>
         </form>
@@ -78,12 +90,13 @@
         <p>Your job has been added to your Trello board!</p>
         <hr>
         <p class="mb-0"><a href="https://trello.com/" target="_blank">Click here to visit it</a></p>
-      </div>
+    </div>
 
     <script type="text/javascript" src="key.js"></script>
     <script type="text/javascript" src="analytics.js"></script>
     <script type="text/javascript" src="lib/jquery.js"></script>
     <script type="text/javascript" src="lib/client.js"></script>
     <script src="popup.js"></script>
-  </body>
+</body>
+
 </html>
