@@ -22,7 +22,59 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
     const trelloBoardUrlPattern = /https\:\/\/trello\.com\/b\/(.{8})(\/.*)?$/;
 
 
-    // Create or Set up a board
+    // if token doesn't exist, go to options page and make the user authorize it
+    if (!token) {
+        chrome.tabs.create({ url: chrome.extension.getURL('settings/index.html') });
+        return true;
+    }
+    // if board does not exist, set up one and add it to local storage
+    else if (!board_id) {
+        board_set_up_function();
+    }
+    else {
+        working();
+    }
+
+    /*
+     * Lets user create or add their Trello board and save to local storage 
+     */
+    function board_set_up_function() {
+        board_missing_div.style.display = 'block';
+        oauth_ok_div.style.display = 'none';
+
+        set_board.addEventListener('click', function () {
+            document.getElementById("set_board").innerHTML = "preparing your board...";
+
+            if (create_board.checked) {
+                board_create_function();
+            } else {
+                board_use_existing_function();
+            }
+        });
+    }
+
+    /*
+     * Send POST request to Trello to create a board
+     * Returns JSON object of board details
+     * Send further POST requests to create 5 lists (Wishlist, InProgress, Applied, Offer, Rejected)
+     */
+
+    function board_create_function() {
+        Trello.post(`/boards?token=${token}&name=Full time Hunt&defaultLists=false`)
+            .then(async (response) => {
+                localStorage.setItem('board_id', response.id);
+                board_id = localStorage.getItem('board_id'); // Save board_id on local storage
+                Trello.post(`/lists?token=${token}&name=Offer&idBoard=${board_id}`);
+                await Trello.post(`/lists?token=${token}&name=Reject&idBoard=${board_id}`);
+                await Trello.post(`/lists?token=${token}&name=InProgress&idBoard=${board_id}`);
+                await Trello.post(`/lists?token=${token}&name=Applied&idBoard=${board_id}`);
+                await Trello.post(`/lists?token=${token}&name=Wishlist&idBoard=${board_id}`);
+                document.getElementById("set_board").innerHTML = "Done!";
+                working();
+            })
+            .catch(error => console.log(error));
+    }
+
 
     create_board.addEventListener('click', function () {
         board_url_div.style.display = "none";
@@ -39,50 +91,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
         board_url_div.style.display = "block";
     });
 
-    // if token doesn't exist, go to options page and make the user authorize it
-    if (!token) {
-        chrome.tabs.create({ url: chrome.extension.getURL('settings/index.html') });
-        sendResponse();
-        return true;
-    }
-    // if board does not exist, set up one and add it to local storage
-    else if (!board_id) {
-        board_set_up_function();
-    }
-    else {
-        working();
-    }
 
-    function board_set_up_function() {
-        board_missing_div.style.display = 'block';
-        oauth_ok_div.style.display = 'none';
-
-        set_board.addEventListener('click', function () {
-            document.getElementById("set_board").innerHTML = "preparing your board...";
-
-            if (create_board.checked) {
-                board_create_function();
-            } else {
-                board_use_existing_function();
-            }
-        });
-    }
-
-    function board_create_function() {
-        Trello.post(`/boards?token=${token}&name=Full time Hunt&defaultLists=false`)
-            .then(async (response) => {
-                localStorage.setItem('board_id', response.id);
-                board_id = localStorage.getItem('board_id');
-                Trello.post(`/lists?token=${token}&name=Offer&idBoard=${board_id}`);
-                await Trello.post(`/lists?token=${token}&name=Reject&idBoard=${board_id}`);
-                await Trello.post(`/lists?token=${token}&name=InProgress&idBoard=${board_id}`);
-                await Trello.post(`/lists?token=${token}&name=Applied&idBoard=${board_id}`);
-                await Trello.post(`/lists?token=${token}&name=Wishlist&idBoard=${board_id}`);
-                document.getElementById("set_board").innerHTML = "Done!";
-                working();
-            })
-            .catch(error => console.log(error));
-    }
 
     function board_use_existing_function() {
         const userBoardId = extract_board_id(board_url.value);
@@ -103,6 +112,9 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
         }
     }
 
+    /**
+     * Parse board ID from Trello board URL and return it
+     */
     function extract_board_id(boardUrl) {
         let userBoardId = null;
         const boardUrlMatcher = boardUrl.match(trelloBoardUrlPattern);
@@ -112,14 +124,20 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
         return userBoardId;
     }
 
+    /**
+     * Display error message
+     */
     function show_board_url_error(message) {
         board_url_error.innerHTML = message;
         board_url.classList.add("is-invalid");
         document.getElementById("set_board").innerHTML = "Done";
     }
 
+    /**
+     * main function to create cards
+     */
     function working() {
-        // initializing it again IN CASE this is first time of use
+        // initializing it again in case this is first time of use
         board_id = localStorage.getItem('board_id');
 
         oauth_ok_div.style.display = 'block';
@@ -150,7 +168,10 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
                 board_set_up_function();
             });
 
-        // Populating Fields
+        // START POPULATING FIELDS
+
+        // For LinkedIn, fetch comapany name, position and location by web scraping
+        // To do: other common job posting websites - this would require more organized code, different function for each website.
         chrome.tabs.getSelected(null, function (tab) {
             document.getElementById('data_url').value = tab.url;
         });
@@ -161,7 +182,6 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
             try {
                 let url = document.getElementsByClassName("jobs-details-top-card__company-url")[0].innerText.trim();
                 fields.push(url)
-                // fields.push(document.getElementsByClassName("jobs-details-top-card__company-url")[0].innerText.trim())
             } catch {
                 var childNodes = document.getElementsByClassName("jobs-details-top-card__company-info")[0].childNodes;
                 result = '';
@@ -175,14 +195,16 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
             fields.push(document.getElementsByClassName("jobs-details-top-card__job-title")[0].innerText.trim())
             fields.push(document.getElementsByClassName("jobs-details-top-card__bullet")[0].innerText.trim())
 
-            return fields
+            return fields;
         }
+
+        // if the website isn't LinkedIn, there will be error in console. Do not worry, for this is temporary :)
         chrome.tabs.executeScript({
             code: '(' + getFieldsFromDOM + ')();'
         }, (results) => {
-            document.getElementById('data_company').value = results[0][0]
-            document.getElementById('data_position').value = results[0][1]
-            document.getElementById('data_location').value = results[0][2]
+            document.getElementById('data_company').value = results[0][0];
+            document.getElementById('data_position').value = results[0][1];
+            document.getElementById('data_location').value = results[0][2];
         });
 
         // END POPULATING FIELDS
@@ -191,7 +213,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
         // On button click, POST all the field data in trello board
         checkPageButton.addEventListener('click', function () {
 
-            // Button Click Event
+            // Button Click Event to send to Analytics
             _gaq.push(['_trackEvent', 'Add To Trello', 'clicked']);
 
             chrome.tabs.getSelected(null, function (tab) {
@@ -212,11 +234,9 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
                         .then(response => {
                             console.log("result", response);
                             if (response.status == 400 || response.status == 401 || response.status == 403) {
-                                console.log("error error");
                                 // now change divs
                                 displayError('There was an issue posting this card to Trello. Please try again.');
                             } else {
-                                console.log("POSTED");
                                 // now change divs
                                 let abc = document.getElementById('post_success');
                                 oauth_ok_div.style.display = 'none';
@@ -225,8 +245,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
                         })
                         .catch(err => console.error(err));
                 } else {
-                    console.log("no list selected");
-                    displayError('Trello list must be chosen before adding a new card');
+                    displayError('Please choose a list to add the job to.');
                     document.getElementById('list_options').focus();
                 }
             });
@@ -246,6 +265,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
             closeAlert();
         });
 
+        // automatically close error message on list select
         document.getElementById('list_options').addEventListener("change", closeAlert);
     }
 
