@@ -1,72 +1,226 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
     <title>Eztrackr</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
     <script src="https://requirejs.org/docs/release/2.3.6/minified/require.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.3/fetch.js"></script>
     <style>
-        body{
-            width: 300px;
-            zoom: 0.8;
+      body {
+        width: 300px;
+        zoom: 0.8;
+      }
+      /* Style for the loader */
+      .loader {
+        height: 70vh;
+        display: flex;
+        align-items: center;
+        margin: 0 auto;
+        justify-content: center;
+      }
+
+      .line {
+        animation: expand 1s ease-in-out infinite;
+        border-radius: 10px;
+        display: inline-block;
+        transform-origin: center center;
+        margin: 0 10px;
+        width: 10px;
+        height: 5rem;
+      }
+
+      .line:nth-child(1) {
+        background: var(--primary);
+      }
+
+      .line:nth-child(2) {
+        animation-delay: 180ms;
+        background: var(--primary);
+      }
+
+      .line:nth-child(3) {
+        animation-delay: 360ms;
+        background: var(--primary);
+      }
+
+      .line:nth-child(4) {
+        animation-delay: 540ms;
+        background: var(--primary);
+      }
+
+      @keyframes expand {
+        0% {
+          transform: scale(1);
         }
+        25% {
+          transform: scale(2);
+        }
+      }
     </style>
   </head>
   <body>
-    <div class="container py-2" id="oauth_ok" style="display: none;">
-        <h4 class="display-4">Eztrackr</h4>
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a
+          class="nav-link active"
+          id="home-tab"
+          data-toggle="tab"
+          href="#form"
+          role="tab"
+          aria-controls="form"
+          aria-selected="true"
+          >Form</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          id="profile-tab"
+          data-toggle="tab"
+          href="#stats"
+          role="tab"
+          aria-controls="stats"
+          aria-selected="false"
+          >Stats</a
+        >
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <!-- form tabs started -->
+      <div
+        class="tab-pane fade show active"
+        id="form"
+        role="tabpanel"
+        aria-labelledby="form-tab"
+      >
+        <!-- form start -->
+        <div class="container py-2" id="oauth_ok" style="display: none">
+          <h4 class="display-4">Eztrackr</h4>
 
-        <!-- failed posted alert -->
-        <div class="alert alert-danger" id="post_fail" role="alert" style="display: none;">
+          <!-- failed posted alert -->
+          <div
+            class="alert alert-danger"
+            id="post_fail"
+            role="alert"
+            style="display: none"
+          >
             <h4 class="alert-heading">Error</h4>
-            <p>There was an issue posting this card to Trello. Please try again.</p>
+            <p>
+              There was an issue posting this card to Trello. Please try again.
+            </p>
+          </div>
+          <form>
+            <div class="form-group">
+              <label>Choose List from your board 'Full time Hunt'</label>
+              <select class="form-control" id="list_options"></select>
+            </div>
+            <div class="form-group">
+              <label>URL</label>
+              <input
+                class="form-control"
+                id="data_url"
+                placeholder=""
+                autocomplete="off"
+              />
+            </div>
+            <div class="form-group">
+              <label>Company</label>
+              <input
+                class="form-control"
+                id="data_company"
+                placeholder=""
+                autocomplete="off"
+              />
+            </div>
+            <div class="form-group">
+              <label>Position</label>
+              <input
+                class="form-control"
+                id="data_position"
+                placeholder=""
+                autocomplete="off"
+              />
+            </div>
+            <div class="form-group">
+              <label>Location</label>
+              <input
+                class="form-control"
+                id="data_location"
+                placeholder=""
+                autocomplete="off"
+              />
+            </div>
+            <div class="form-group">
+              <label>Any notes</label>
+              <textarea
+                class="form-control"
+                id="data_notes"
+                placeholder=""
+                autocomplete="off"
+              ></textarea>
+            </div>
+          </form>
+          <button class="btn btn-primary" id="checkPage">Add to trello</button>
+          <p>
+            <small
+              ><a
+                href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ZBR894KSWNJPS&currency_code=CAD"
+                target="_blank"
+                class="text-dark"
+                >Donate</a
+              ></small
+            >
+          </p>
         </div>
-        <form>
-            <div class="form-group">
-                <label>Choose List from your board 'Full time Hunt'</label>
-                <select class="form-control" id="list_options">
-                </select>
-            </div>
-            <div class="form-group">
-                <label>URL</label>
-                <input class="form-control" id="data_url" placeholder="" autocomplete="off">
-            </div>
-            <div class="form-group">
-                <label>Company</label>
-                <input class="form-control" id="data_company" placeholder="" autocomplete="off">
-            </div>
-            <div class="form-group">
-                <label>Position</label>
-                <input class="form-control" id="data_position" placeholder="" autocomplete="off">
-            </div>
-            <div class="form-group">
-                <label>Location</label>
-                <input class="form-control" id="data_location" placeholder="" autocomplete="off">
-            </div>
-            <div class="form-group">
-                <label>Any notes</label>
-                <textarea class="form-control" id="data_notes" placeholder="" autocomplete="off"></textarea>
-            </div>
-        </form>
-        <button class="btn btn-primary" id="checkPage">Add to trello</button>
-        <p><small><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ZBR894KSWNJPS&currency_code=CAD" target="_blank" class="text-dark">Donate</a></small></p>
-    </div>
-    <div class="container py-2" id="board_missing" style="display: none;">
-        <p>Looks like you don't have a board set up. Click the button below and we'll create for you! Once created, you can check it at <a href="https://trello.com/" target="_blank">Trello's website</a></p>
-        <button class="btn btn-success" id="create_board">Create</button>
+
+        <!-- successfully posted alert -->
+        <div
+          class="alert alert-success"
+          id="post_success"
+          role="alert"
+          style="display: none"
+        >
+          <h4 class="alert-heading">Done!</h4>
+          <p>Your job has been added to your Trello board!</p>
+          <hr />
+          <p class="mb-0">
+            <a href="https://trello.com/" target="_blank"
+              >Click here to visit it</a
+            >
+          </p>
+        </div>
+
+        <!-- form end -->
+      </div>
+      <!-- form tabs end -->
+      <!-- Stats tabs started -->
+      <div
+        class="tab-pane fade"
+        id="stats"
+        role="tabpanel"
+        aria-labelledby="stats-tab"
+      >
+        <div class="container py-4" id="stats-wrapper"></div>
+      </div>
+      <!-- Stats tabs end -->
     </div>
 
-    <!-- successfully posted alert -->
-    <div class="alert alert-success" id="post_success" role="alert" style="display: none;">
-        <h4 class="alert-heading">Done!</h4>
-        <p>Your job has been added to your Trello board!</p>
-        <hr>
-        <p class="mb-0"><a href="https://trello.com/" target="_blank">Click here to visit it</a></p>
-      </div>
+    <div class="container py-2" id="board_missing" style="display: none">
+      <p>
+        Looks like you don't have a board set up. Click the button below and
+        we'll create for you! Once created, you can check it at
+        <a href="https://trello.com/" target="_blank">Trello's website</a>
+      </p>
+      <button class="btn btn-success" id="create_board">Create</button>
+    </div>
 
     <script type="text/javascript" src="key.js"></script>
     <script type="text/javascript" src="lib/jquery.js"></script>
     <script type="text/javascript" src="lib/client.js"></script>
+    <script type="text/javascript" src="lib/tabs.js"></script>
     <script src="popup.js"></script>
   </body>
 </html>
