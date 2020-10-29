@@ -3,7 +3,8 @@
 
 <head>
     <title>Eztrackr</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     <script src="https://requirejs.org/docs/release/2.3.6/minified/require.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.3/fetch.js"></script>
@@ -19,8 +20,8 @@
     <div class="container py-2" id="oauth_ok" style="display: none;">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#form" role="tab" aria-controls="form"
-                    aria-selected="true">Form</a>
+                <a class="nav-link active show" id="home-tab" data-toggle="tab" href="#form" role="tab"
+                    aria-controls="form" aria-selected="true">Form</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="profile-tab" data-toggle="tab" href="#stats" role="tab" aria-controls="stats"
@@ -73,25 +74,21 @@
                 <button class="btn btn-primary" id="checkPage">Add to trello</button>
                 <p><small><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ZBR894KSWNJPS&currency_code=CAD"
                             target="_blank" class="text-dark">Donate</a></small></p>
-
                 <!-- form ends -->
             </div>
         </div>
         <div class="tab-content" id="myTabContent">
             <!-- form tabs started -->
             <div class="tab-pane fade" id="stats" role="tabpanel" aria-labelledby="form-tab">
-                <div class="row" id="cardWrapper">
-
+                <div class="text-center" id="loader">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <div id="cardWrapper">
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-
     </div>
 
     <!-- Set up a board for first time user -->
@@ -134,9 +131,9 @@
     <script type="text/javascript" src="analytics.js"></script>
     <script type="text/javascript" src="lib/jquery.js"></script>
     <script type="text/javascript" src="lib/client.js"></script>
-    <script type="text/javascript" src="lib/tabs.js"></script>
     <script src="popup.js"></script>
     <script src="tabs.js"></script>
+
 </body>
 
 </html>
