@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () { // this function  starts when extension is clicked
-
+    console.log('dome loaded')
     // setting global variables
     Trello.setKey(APP_KEY);
     var token = localStorage.getItem('trello_token');
@@ -20,6 +20,25 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
         "July", "August", "September", "October", "November", "December"
     ];
     const trelloBoardUrlPattern = /https\:\/\/trello\.com\/b\/(.{8})(\/.*)?$/;
+
+
+/*    autocomplete.setComponentRestrictions({ country: [] }); */
+/* places = new google.maps.places.PlacesService(map); */
+// autocomplete.addListener("place_changed", onPlaceChanged);
+var MyApp = {
+    init: function() {
+         //all your stuff
+         console.log('hihi')
+    }
+}
+
+window.initMap = function() {
+
+   window.initMap = null; //set this to null this so that it can't get called anymore....if you want
+   MyApp.init();
+};
+ 
+
 
 
     // if token doesn't exist, go to options page and make the user authorize it
@@ -269,4 +288,50 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
         document.getElementById('list_options').addEventListener("change", closeAlert);
     }
 
+
 }, false);
+
+
+
+
+// google.maps.event.addDomListener(window, 'load', initMap); 
+
+// $(() => { // jquery on load
+//     // function initMap(){
+//         let autocomplete
+//         initMap = function() {
+//         console.log('initMap')
+//          autocomplete = new google.maps.places.Autocomplete(
+            
+//             document.getElementById("data_location"),
+//             {
+//               types: ["(cities)"],
+//               componentRestrictions: countryRestrict,
+//             }
+//             )
+            
+            
+//             /*    autocomplete.setComponentRestrictions({ country: [] }); */
+//             /* places = new google.maps.places.PlacesService(map); */
+//             console.log('autocomplete',autocomplete)
+//             if(typeof(autocomplete)!=='undefined'){
+//                 console.log('no undefined')
+//             }
+//             autocomplete.addListener("place_changed", onPlaceChanged);
+    
+//     }
+
+
+// function onPlaceChanged() {
+//     const place = autocomplete.getPlace();
+    
+//     if(place.geometry){
+//         console.log( 'location',place.geometry.location)
+//     }else{
+//         document.getElementById("autocomplete").placeholder = "Enter a city";
+//     }
+//     }
+// });
+
+
+

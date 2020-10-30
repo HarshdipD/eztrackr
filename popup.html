@@ -2,10 +2,12 @@
 <html>
 
 <head>
-    <title>Eztrackr</title>
+    <title>Eztrackr</title>   
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://requirejs.org/docs/release/2.3.6/minified/require.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.3/fetch.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyCS-iudHKaXbsWtKkRm0kFrjnnIZ3Yx5ME"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script> 
     <style>
         body {
             width: 300px;
@@ -46,7 +48,7 @@
             </div>
             <div class="form-group">
                 <label>Location</label>
-                <input class="form-control" id="data_location" placeholder="" autocomplete="off">
+                <input class="form-control" id="data_location" placeholder="Enter a place" type="text">
             </div>
             <div class="form-group">
                 <label>Any notes</label>
@@ -97,7 +99,7 @@
     <script type="text/javascript" src="key.js"></script>
     <script type="text/javascript" src="analytics.js"></script>
     <script type="text/javascript" src="lib/jquery.js"></script>
-    <script type="text/javascript" src="lib/client.js"></script>
+    <script type="text/javascript" src="lib/client.js"></script> 
     <script src="popup.js"></script>
 </body>
 
