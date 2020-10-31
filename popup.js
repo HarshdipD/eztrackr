@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () { // this function  starts when extension is clicked
-    console.log('dome loaded')
     // setting global variables
     Trello.setKey(APP_KEY);
     var token = localStorage.getItem('trello_token');
@@ -22,9 +21,6 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
     const trelloBoardUrlPattern = /https\:\/\/trello\.com\/b\/(.{8})(\/.*)?$/;
 
 
-/*    autocomplete.setComponentRestrictions({ country: [] }); */
-/* places = new google.maps.places.PlacesService(map); */
-// autocomplete.addListener("place_changed", onPlaceChanged);
     // if token doesn't exist, go to options page and make the user authorize it
     if (!token) {
         chrome.tabs.create({ url: chrome.extension.getURL('settings/index.html') });
@@ -271,7 +267,6 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
         // automatically close error message on list select
         document.getElementById('list_options').addEventListener("change", closeAlert);
     }
-
 
 }, false);
 
