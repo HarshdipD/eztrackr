@@ -273,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
 
 /*
      * Wire googlemap api
-     * countryRestrict : [] returns all over the world. 
+     * countryRestrict : [] returns cities from the all the country. 
 */
 google.maps.event.addDomListener(window, 'load', initAutoComplete);
 let autocomplete;
