@@ -6,22 +6,20 @@ A Chrome extension that saves your jobs to your Trello boards.
 <img src="https://i.imgur.com/lfwpoJ3.jpeg" />
 
 ## How it works
-Just click on the extension icon, enter the fields and it will add it to an already created Trello board. <br />
-What it currently adds: Job company, position, location, and the URL of the page where you applied the job. This information is added as a card to a list. <br />
-Current dev version (1.1.0) also adds the date of card creation.
+Just click on the extension icon, enter the fields and it will add it to an already created Trello board! The extension auto-fills the fields if you're on LinkedIn jobs. 
 
 ### Does it work right now? 
-Yes! Version 1 is out right now and you can install it here: https://chrome.google.com/webstore/detail/eztrackr/kdpbamlhffmfbgglmaedhopenkpgkfdg
+Yes! You can install it here: https://chrome.google.com/webstore/detail/eztrackr/kdpbamlhffmfbgglmaedhopenkpgkfdg
 
 ### Setting it up
 If you're here to help contribute, here are a few steps on how to set this extension up
 
 1. Make sure you have enabled developer mode in Chrome at `chrome://extensions`
 2. Clone this repo, and press 'Load unpacked' to load this extension
-3. Go to key.js and replace the field of `api_key`. It can found out at https://trello.com/app-key
+3. Go to key.js and replace the field of `APP_KEY`. It can found out at https://trello.com/app-key
 4. Add the Chrome extension ID to Allowed origins section in the same Trello page (eg. `chrome-extension://okpdemdmpglaapjpbdphmfhlfjbilbpc`)
 
-That's it! You should be able to use the extension and see your cards being saved on Trello. 
+That's it! You should be able to use the extension and see your cards being saved on Trello.<br />
 Note: If you skip the 4th step, you will recieve an invalid redirect error. 
 
 ### Contributors:
