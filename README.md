@@ -9,14 +9,14 @@ The extension also shows you current statistics 📈, and even auto-fills the fi
 
 
 ## Install it here:
-🌐 Chrome: [https://chrome.google.com/webstore/detail/eztrackr/kdpbamlhffmfbgglmaedhopenkpgkfdg](https://chrome.google.com/webstore/detail/eztrackr/kdpbamlhffmfbgglmaedhopenkpgkfdg)
+🌐 Chrome: [https://chrome.google.com/webstore/detail/eztrackr/kdpbamlhffmfbgglmaedhopenkpgkfdg](Webstore link)
 <br />
 🌐 Firefox: Coming soon 😄
 <br />
 <br />
 <span>
-<img src="https://i.imgur.com/6qcSRTj.jpg" height="320px" />
-<img src="https://i.imgur.com/7Y9mzRd.png" height="320px" />
+<img src="https://i.imgur.com/6qcSRTj.jpg" height="400px" />
+<img src="https://i.imgur.com/7Y9mzRd.png" height="400px" />
 </span>
 
 ## Support
@@ -24,12 +24,16 @@ The extension also shows you current statistics 📈, and even auto-fills the fi
  - 🗨️ Recommending new features on [GitHub](https://github.com/HarshdipD/job-tracker/issues)
  - 💻 Contributing (or improving) your amazing coding skills to solve bugs and add new features - [GitHub](https://github.com/HarshdipD/job-tracker/)
  - 💬 Sharing it to other job seekers
- - 💖 Donating me
+ - 💖 Donating to me
     - Ko-fi - <a href="https://ko-fi.com/hsdeogan" target="_blank">hsdeogan</a>
     - PayPal - <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ZBR894KSWNJPS&currency_code=CAD" target="_blank">deogan</a>
 
 ## Want to contribute?
-Thank you for your interest in making this extension even better! 😊 If you'd like to report a bug or recommend a feature, please add it [on the issues page](https://github.com/HarshdipD/job-tracker/issues).
+Thank you for your interest in making this extension even better! 😊
+<br />
+If you'd like to report a bug or recommend a feature, please add it [on the issues page](https://github.com/HarshdipD/job-tracker/issues).
+<br />
+If you'd like to add a feature or fix any existing bugs, read ahead:
 
 ### Setting it up:
 🔧 Here are a few steps on how to set this extension up:
