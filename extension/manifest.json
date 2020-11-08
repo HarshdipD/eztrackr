@@ -22,11 +22,6 @@
     "web_accessible_resources": [
         "settings/index.html"
     ],
-    "options_ui":{
-        "page":"popup.html",
-        "browser_style": true,
-        "chrome_style": true
-    },
     "options_page": "settings/index.html",
     "content_security_policy": "script-src 'self' https://maps.googleapis.com https://maps.gstatic.com https://maxcdn.bootstrapcdn.com https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.3/fetch.js https://requirejs.org/docs/release/2.3.6/minified/require.js https://cdn.jsdelivr.net/bluebird/3.5.0/bluebird.min.js https://ssl.google-analytics.com; object-src 'self'; sha256-tzYnGqBJhyOTmfQZkEl4i5p7cC4LKXIsu9X2WV0s98M="
 }
