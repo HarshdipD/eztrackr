@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
                 document.getElementById("set_board").innerHTML = "Done!";
                 working();
             })
-            .catch(error => console.log(error));
+            .catch(error => {});
     }
 
 
@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
                     document.getElementById('data_url').value = tab.url;
                 });
             } catch (error) {
-                onError(error);
+                // onError(error);
             }
         }
 
@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
                 document.getElementById('data_position').value = results[0][1];
                 document.getElementById('data_location').value = results[0][2];
             } catch (error) {
-                onError(error);
+                // do nothing
             }
         }
         const code = '(' + getFieldsFromDOM + ')();';
