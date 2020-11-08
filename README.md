@@ -9,7 +9,7 @@ The extension also shows you current statistics 📈, and even auto-fills the fi
 
 
 ## Install it here:
-🌐 Chrome: [https://chrome.google.com/webstore/detail/eztrackr/kdpbamlhffmfbgglmaedhopenkpgkfdg](Webstore link)
+🌐 Chrome: <a href="https://chrome.google.com/webstore/detail/eztrackr/kdpbamlhffmfbgglmaedhopenkpgkfdg" target="_blank">Webstore link</a>
 <br />
 🌐 Firefox: Coming soon 😄
 <br />
