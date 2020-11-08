@@ -15,8 +15,8 @@ The extension also shows you current statistics 📈, and even auto-fills the fi
 <br />
 <br />
 <span>
-<img src="https://i.imgur.com/6qcSRTj.jpg" height="400px" />
-<img src="https://i.imgur.com/7Y9mzRd.png" height="400px" />
+<img src="https://i.imgur.com/6qcSRTj.jpg" />
+<img src="https://i.imgur.com/7Y9mzRd.png" />
 </span>
 
 ## Support
