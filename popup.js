@@ -19,7 +19,20 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
         "July", "August", "September", "October", "November", "December"
     ];
     const trelloBoardUrlPattern = /https\:\/\/trello\.com\/b\/(.{8})(\/.*)?$/;
+    // check browser type
+    var isFirefox = typeof InstallTrigger !== 'undefined';
+    var isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
+    // Firefox browser functions
+    
+    function onError(error) {
+        console.log(error);
+    }
 
+    function loadTabs(tabs){
+        document.getElementById('data_url').value =  tabs[0].url;
+    }
+
+    // end of the Firefox browser func
 
     // if token doesn't exist, go to options page and make the user authorize it
     if (!token) {
@@ -171,9 +184,22 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
 
         // For LinkedIn, fetch comapany name, position and location by web scraping
         // To do: other common job posting websites - this would require more organized code, different function for each website.
-        chrome.tabs.getSelected(null, function (tab) {
-            document.getElementById('data_url').value = tab.url;
-        });
+        if(isChrome) {
+            // using try & catch to handle error 
+            // since Firefox does not recognize "chrome"
+            try {
+                chrome.tabs.getSelected(null, function (tab) {
+                    document.getElementById('data_url').value = tab.url;
+                });
+            } catch (error) {
+                onError(error);
+            }
+        }
+
+        if(isFirefox){
+            let querying = browser.tabs.query({currentWindow: true, active: true});
+            querying.then(loadTabs, onError);
+        }
 
         function getFieldsFromDOM() {
             let fields = []
@@ -198,14 +224,34 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
         }
 
         // if the website isn't LinkedIn, there will be error in console. Do not worry, for this is temporary :)
-        chrome.tabs.executeScript({
-            code: '(' + getFieldsFromDOM + ')();'
-        }, (results) => {
-            document.getElementById('data_company').value = results[0][0];
-            document.getElementById('data_position').value = results[0][1];
-            document.getElementById('data_location').value = results[0][2];
-        });
+        function updateFields(results) {
+            try {
+                document.getElementById('data_company').value = results[0][0];
+                document.getElementById('data_position').value = results[0][1];
+                document.getElementById('data_location').value = results[0][2];
+            } catch (error) {
+                onError(error);
+            }
+        }
+        const code = '(' + getFieldsFromDOM + ')();';
+        if(isChrome){
+            try {
+                chrome.tabs.executeScript({
+                    code
+                }, (results) => {
+                    updateFields(results);
+                });
+            } catch (error) {
+                onError(error);
+            }
+        }
 
+        if(isFirefox){
+            const executing = browser.tabs.executeScript({
+                code
+            });
+            executing.then(updateFields, onError);
+        }
         // END POPULATING FIELDS
 
 
@@ -215,39 +261,37 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
             // Button Click Event to send to Analytics
             _gaq.push(['_trackEvent', 'Add To Trello', 'clicked']);
 
-            chrome.tabs.getSelected(null, function (tab) {
+            // Here's we'll make the card contents to POST
+            let data_url = document.getElementById('data_url').value;
+            let data_company = document.getElementById('data_company').value;
+            let data_position = document.getElementById('data_position').value;
+            let data_location = document.getElementById('data_location').value;
+            let data_notes = document.getElementById('data_notes').value;
+            idList = document.getElementById('list_options').value;
+            let date_applied = today.getDate() + " " + monthNames[today.getMonth()] + ", " + today.getFullYear();
 
-                // Here's we'll make the card contents to POST
-                let data_url = document.getElementById('data_url').value;
-                let data_company = document.getElementById('data_company').value;
-                let data_position = document.getElementById('data_position').value;
-                let data_location = document.getElementById('data_location').value;
-                let data_notes = document.getElementById('data_notes').value;
-                idList = document.getElementById('list_options').value;
-                let date_applied = today.getDate() + " " + monthNames[today.getMonth()] + ", " + today.getFullYear();
+            let description = encodeURIComponent(`URL: ${data_url} \n Company: ${data_company} \n Position: ${data_position} \n Location: ${data_location} \n Date Applied: ${date_applied} \n\n Notes: ${data_notes}`);
 
-                let description = encodeURIComponent(`URL: ${data_url} \n Company: ${data_company} \n Position: ${data_position} \n Location: ${data_location} \n Date Applied: ${date_applied} \n\n Notes: ${data_notes}`);
-
-                if (idList != 'Choose list') {
-                    Trello.post(`/cards?key=${APP_KEY}&token=${token}&idList=${idList}&name=${data_company}&desc=${description}`)
-                        .then(response => {
-                            console.log("result", response);
-                            if (response.status == 400 || response.status == 401 || response.status == 403) {
-                                // now change divs
-                                displayError('There was an issue posting this card to Trello. Please try again.');
-                            } else {
-                                // now change divs
-                                let abc = document.getElementById('post_success');
-                                oauth_ok_div.style.display = 'none';
-                                abc.style.display = 'block';
-                            }
-                        })
-                        .catch(err => console.error(err));
-                } else {
-                    displayError('Please choose a list to add the job to.');
-                    document.getElementById('list_options').focus();
-                }
-            });
+            if (idList != 'Choose list') {
+                Trello.post(`/cards?key=${APP_KEY}&token=${token}&idList=${idList}&name=${data_company}&desc=${description}`)
+                    .then(response => {
+                        console.log("result", response);
+                        if (response.status == 400 || response.status == 401 || response.status == 403) {
+                            // now change divs
+                            displayError('There was an issue posting this card to Trello. Please try again.');
+                        } else {
+                            // now change divs
+                            let abc = document.getElementById('post_success');
+                            oauth_ok_div.style.display = 'none';
+                            abc.style.display = 'block';
+                        }
+                    })
+                    .catch(err => console.error(err));
+            } else {
+                displayError('Please choose a list to add the job to.');
+                document.getElementById('list_options').focus();
+            }
+      
         }, false);
 
         function displayError(txt) {
