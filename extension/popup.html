@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Eztrackr</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
@@ -80,8 +81,9 @@
         <div class="tab-content" id="tab-content">
             <!-- form tabs started -->
             <div class="tab-pane fade statistics" id="stats" role="tabpanel" aria-labelledby="form-tab">
-                <p style="font-size: 1em">Here are the current number of cards in your lists. You can check out your
-                    board at <a id="user_board_url" target="_blank" href="https://trello.com">Trello</a>.</p>
+                <p style="font-size: 1em">Here are the current number of cards in your lists. <a id="user_board_url_1"
+                        target="_blank" href="https://trello.com">Click here</a> to check out your
+                    board at Trello.</p>
                 <div class="text-center" id="loader">
                     <div class="spinner-border text-primary" role="status">
                         <span class="sr-only">Loading...</span>
@@ -91,8 +93,15 @@
                 </div>
             </div>
         </div>
-        <p><small><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ZBR894KSWNJPS&currency_code=CAD"
-                    target="_blank" class="text-dark">Donate</a></small></p>
+        <hr />
+        <span>
+            <small>
+                <a class="text-dark normal_text" href="https://hsdeogan.com/job-tracker/" target="_blank">Website</a> |
+                <a class="text-dark normal_text" href="https://github.com/HarshdipD/job-tracker" target="_blank">
+                    GitHub</a> |
+                <a class="text-dark normal_text" href="https://ko-fi.com/hsdeogan" target="_blank"> Donate</a>
+            </small>
+        </span>
     </div>
 
     <!-- Set up a board for first time user -->
@@ -125,15 +134,15 @@
 
     <!-- successfully posted alert -->
     <div class="alert alert-success" id="post_success" role="alert" style="display: none;">
-        <h4 class="alert-heading">Done!</h4>
+        <h4 class="alert-heading">Success</h4>
         <p>Your job has been added to your Trello board!</p>
         <hr>
-        <p class="mb-0"><a href="https://trello.com/" target="_blank">Click here to visit it</a></p>
+        <p class="mb-0"><a id="user_board_url_2" href="https://trello.com/" target="_blank">Click here to visit it</a>
+        </p>
     </div>
 
-    <!-- consider donating to support -->
-
-    <!-- consider sharing to support -->
+    <!-- TODO at 1000 users: consider donating to support -->
+    <!-- TODO at 1000 users: consider sharing to support -->
 
 
     <script type="text/javascript" src="key.js"></script>

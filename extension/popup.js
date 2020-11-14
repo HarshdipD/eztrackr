@@ -155,8 +155,10 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
         board_id = localStorage.getItem('board_id');
 
         // add url for boards
-        let anchor_1 = document.getElementById('user_board_url');
+        let anchor_1 = document.getElementById('user_board_url_1');
+        let anchor_2 = document.getElementById('user_board_url_2');
         anchor_1.href = localStorage.getItem('user_board_url') ? `${user_board_url}` : 'https://trello.com/';
+        anchor_2.href = localStorage.getItem('user_board_url') ? `${user_board_url}` : 'https://trello.com/';
 
         oauth_ok_div.style.display = 'block';
         board_missing_div.style.display = 'none';
