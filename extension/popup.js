@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
     var checkPageButton = document.getElementById('checkPage');
     var alertBox = document.getElementById('alert_box');
     var alertBoxButton = document.getElementById('close_alert');
+    var user_board_url = localStorage.getItem('user_board_url');
     var today = new Date();
     const monthNames = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
@@ -132,6 +133,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
         const boardUrlMatcher = boardUrl.match(trelloBoardUrlPattern);
         if (boardUrl && boardUrlMatcher) {
             userBoardId = boardUrlMatcher[1];
+            localStorage.setItem('user_board_url', boardUrl);
         }
         return userBoardId;
     }
@@ -151,6 +153,10 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
     function working() {
         // initializing it again in case this is first time of use
         board_id = localStorage.getItem('board_id');
+
+        // add url for boards
+        let anchor_1 = document.getElementById('user_board_url');
+        anchor_1.href = localStorage.getItem('user_board_url') ? `${user_board_url}` : 'https://trello.com/';
 
         oauth_ok_div.style.display = 'block';
         board_missing_div.style.display = 'none';

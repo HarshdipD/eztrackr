@@ -19,10 +19,8 @@ document.addEventListener('DOMContentLoaded', function () {
   // html for the card
   const htmlCard = ({ name, noOfCounts }) => {
     return `
-        <div>
-        <span>${name}</span>
-        <span>: ${noOfCounts}</span>
-        </div>
+        <span style="font-size: 1.5em"><b>${name}</b>: ${noOfCounts}</span>
+        <br />
   `;
   };
 
@@ -60,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       } else {
         hideLoader();
-        statsContainer.innerHTML = `<p>No any lists present</p>`
+        statsContainer.innerHTML = `<p>Hmm... there are no lists present in your board.</p>`
       }
 
     } catch (err) {
@@ -82,8 +80,8 @@ document.addEventListener('DOMContentLoaded', function () {
       document.querySelector("#myTab a.active.show").classList.remove("active", "show");
       this.classList.add("active", "show");
       this.setAttribute("aria-selected", "true");
-      document.querySelector("#myTabContent .tab-pane.active.show").classList.remove("active", "show");
-      document.querySelector(`#myTabContent .tab-pane${this.getAttribute('href')}`).classList.add("active", "show");
+      document.querySelector("#tab-content .tab-pane.active.show").classList.remove("active", "show");
+      document.querySelector(`#tab-content .tab-pane${this.getAttribute('href')}`).classList.add("active", "show");
       if (this.getAttribute('href').slice(1) === 'stats') {
         getCardsList();
       }
