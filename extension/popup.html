@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://requirejs.org/docs/release/2.3.6/minified/require.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.3/fetch.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=YOUR_API_KEY"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyCwgQdyJcIMDCNacUJUk-H8FMGVVz8OpTM"></script>
 
     <style>
         body {
@@ -24,7 +24,7 @@
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active show" id="home-tab" data-toggle="tab" href="#form" role="tab"
-                    aria-controls="form" aria-selected="true">Form</a>
+                    aria-controls="form" aria-selected="true">Add Job</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="profile-tab" data-toggle="tab" href="#stats" role="tab" aria-controls="stats"
@@ -106,7 +106,7 @@
 
     <!-- Set up a board for first time user -->
     <div class="container py-2" id="board_missing" style="display: none;">
-        <p>Looks like you don't have a board set up. We can create one for you or you can choose one of your
+        <p>It looks like you don't have a board set up. We can create one for you or you can choose one of your
             existing
             boards.
             If you choose to create a new one, you can check it at <a href="https://trello.com/"
@@ -133,7 +133,7 @@
     </div>
 
     <!-- successfully posted alert -->
-    <div class="alert alert-success" id="post_success" role="alert" style="display: none;">
+    <div class="alert alert-success" id="post_success" role="alert" style="display: block;">
         <h4 class="alert-heading">Success</h4>
         <p>Your job has been added to your Trello board!</p>
         <hr>
@@ -141,8 +141,8 @@
         </p>
     </div>
 
-    <!-- TODO at 1000 users: consider donating to support -->
-    <!-- TODO at 1000 users: consider sharing to support -->
+    <!-- TODO at 1000+ users: consider donating to support div, that will pop up occasionally -->
+    <!-- TODO at 1000+ users: consider sharing to support div, that will pop up occasionally -->
 
 
     <script type="text/javascript" src="key.js"></script>
