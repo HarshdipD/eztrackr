@@ -1,7 +1,19 @@
 function init() {
+    var isFirefox = typeof InstallTrigger !== 'undefined';
+    var isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
+    // Firefox browser functions
+    
+    function onError(error) {
+        console.log(error);
+    }
+
+    function removeTab(tab){
+        browser.tabs.remove(tab[0].id);
+    }
 
     // Check if page load is a redirect back from the auth procedure
     if (HashSearch.keyExists('token')) {
+
         Trello.authorize(
             {
                 name: "Eztrackr",
@@ -9,14 +21,34 @@ function init() {
                 interactive: false,
                 scope: {read: true, write: true},
                 success: function () {
-                    chrome.extension.sendMessage({
-                        command: 'saveToken',
-                        token: localStorage.getItem('trello_token')
-                    }, function(data) {
-                        chrome.tabs.getCurrent(function (tab) {
-                            chrome.tabs.remove(tab.id)
+        
+                    if(isChrome){
+                        try {
+                            chrome.extension.sendMessage({
+                                command: 'saveToken',
+                                token: localStorage.getItem('trello_token')
+                            }, function(data) {
+                                chrome.tabs.getCurrent(function (tab) {
+                                    chrome.tabs.remove(tab.id)
+                                });
+                            });
+                        } catch (error) {
+                            // do nothing
+                        }
+        
+                    }
+           
+                    if(isFirefox){
+                      
+                        browser.runtime.sendMessage(null,{
+                            command: 'saveToken',
+                            token: localStorage.getItem('trello_token')
                         });
-                    });
+                        let querying = browser.tabs.query({currentWindow: true, active: true});
+                        querying.then(removeTab, onError);
+                        
+                    }
+                    
                 },
                 error: function () {
                     alert("Failed to authorize with Trello.")
