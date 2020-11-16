@@ -327,23 +327,17 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
      * Wire googlemap api
      * countryRestrict : [] returns cities from the all the country. 
 */
-google.maps.event.addDomListener(window, 'load', initAutoComplete);
-let autocomplete;
-let countryRestrict = { country: [] };
+// google.maps.event.addDomListener(window, 'load', initAutoComplete);
+// let autocomplete;
+// let countryRestrict = { country: [] };
 
-function initAutoComplete() {
-    autocomplete = new google.maps.places.Autocomplete(
-        document.getElementById("data_location"),
-        {
-            types: ["(cities)"],
-            componentRestrictions: countryRestrict,
-        }
-    )
+// function initAutoComplete() {
+//     autocomplete = new google.maps.places.Autocomplete(
+//         document.getElementById("data_location"),
+//         {
+//             types: ["(cities)"],
+//             componentRestrictions: countryRestrict,
+//         }
+//     )
    
-}
-
-
-
-
-
-
+// }
