@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
         oauth_ok_div.style.display = 'none';
 
         set_board.addEventListener('click', function () {
-            document.getElementById("set_board").innerHTML = "preparing your board...";
+            document.getElementById("set_board").textContent = "preparing your board...";
 
             if (create_board.checked) {
                 board_create_function();
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
                 await Trello.post(`/lists?token=${token}&name=InProgress&idBoard=${board_id}`);
                 await Trello.post(`/lists?token=${token}&name=Applied&idBoard=${board_id}`);
                 await Trello.post(`/lists?token=${token}&name=Wishlist&idBoard=${board_id}`);
-                document.getElementById("set_board").innerHTML = "Done!";
+                document.getElementById("set_board").textContent = "Done!";
                 working();
             })
             .catch(error => console.log(error));
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
     });
 
     function clear_board_url_data() {
-        board_url_error.innerHTML = '';
+        board_url_error.textContent = '';
         board_url.classList.remove("is-invalid");
         board_url.value = '';
     }
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
                 .then(response => {
                     localStorage.setItem('board_id', response.id);
                     board_id = localStorage.getItem('board_id');
-                    document.getElementById("set_board").innerHTML = "Done!";
+                    document.getElementById("set_board").textContent = "Done!";
                     working();
                 })
                 .catch(error => {
@@ -142,9 +142,9 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
      * Display error message
      */
     function show_board_url_error(message) {
-        board_url_error.innerHTML = message;
+        board_url_error.textContent = message;
         board_url.classList.add("is-invalid");
-        document.getElementById("set_board").innerHTML = "Done";
+        document.getElementById("set_board").textContent = "Done";
     }
 
     /**
@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
 
         function displayError(txt) {
             let msg = document.getElementById('alert_msg');
-            msg.innerHTML = txt;
+            msg.textContent = txt;
             alertBox.style.display = 'block';
         }
 
