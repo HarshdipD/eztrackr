@@ -13,16 +13,26 @@ document.addEventListener('DOMContentLoaded', function () {
   // clear the loader
 
   const clearUI = () => {
-    statsContainer.innerHTML = "";
+    statsContainer.textContent = "";
   };
 
   // html for the card
   const htmlCard = ({ name, noOfCounts }) => {
-    return `
-        <span style="font-size: 1.5em"><b>${name}</b>: ${noOfCounts}</span>
-        <br />
-  `;
-  };
+    var b = document.createElement('b');
+    b.textContent = name;
+    var div = document.createElement('div');
+    var span = document.createElement('span');
+    var innerSpan = document.createElement('span');
+    innerSpan.textContent = `: ${noOfCounts}`
+    span.appendChild(b);
+    span.appendChild(innerSpan);
+    span.style = "font-size: 1.5em";
+    div.appendChild(span);
+    div.appendChild(document.createElement('br'));
+
+    return div;
+
+  }
 
   // function to get the card data and list data
 
@@ -45,20 +55,19 @@ document.addEventListener('DOMContentLoaded', function () {
           hideLoader();
           listsOfData.forEach((item) => {
             const markup = htmlCard(item);
+            statsContainer.appendChild(markup);
 
-            statsContainer.innerHTML += markup;
           });
         } else {
           hideLoader();
           listsOfData.forEach((item) => {
             const markup = htmlCard(item);
-
-            statsContainer.innerHTML += markup;
+            statsContainer.appendChild(markup);
           });
         }
       } else {
         hideLoader();
-        statsContainer.innerHTML = `<p>Hmm... there are no lists present in your board.</p>`
+        statsContainer.textContent = `<p>Hmm... there are no lists present in your board.</p>`
       }
 
     } catch (err) {
