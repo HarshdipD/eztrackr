@@ -22,5 +22,5 @@
     "web_accessible_resources": [
         "settings/index.html"
     ],
-    "options_page": "settings/index.html",
+    "options_page": "settings/index.html"
 }
