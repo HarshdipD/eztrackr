@@ -16,6 +16,15 @@
 //     automatically when using <script src=".../client.js?key=..."
 //   token - Optional.  The token to use in API requests.  This is set
 //     automatically when using <script src=".../client.js?key=...&token=..."
+
+// define opts
+var opts = {
+    "version": 1,
+    "apiEndpoint": "https://api.trello.com",
+    "authEndpoint": "https://trello.com",
+    "intentEndpoint": "https://trello.com"
+};
+
 const isFunction = (val) => typeof val === 'function';
 
 const deferred = {};
