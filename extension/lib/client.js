@@ -1,332 +1,423 @@
-// https://developer.atlassian.com/cloud/trello/guides/client-js/client-js-reference/
-// Client.js is a library by Trello
-(function() {
-    var opts = {
-        "version": 1,
-        "apiEndpoint": "https://api.trello.com",
-        "authEndpoint": "https://trello.com",
-        "intentEndpoint": "https://trello.com"
+'use strict';
+
+/* global opts:false */
+
+// NOTE: The client library expects that jQuery has already been included,
+// and that there is an "opts" variable (this is created automatically)
+// when there is a request to client.js?key=...&token=...
+//
+// The expected options are:
+//   version - The API version
+//   apiEndpoint - The URL that API calls should go to (e.g.
+//     https://api.trello.com)
+//   authEndpoint - The URL the authentication requests should go to (e.g.
+//     https://trello.com)
+//   key - the application key to use in API requests.  This is set
+//     automatically when using <script src=".../client.js?key=..."
+//   token - Optional.  The token to use in API requests.  This is set
+//     automatically when using <script src=".../client.js?key=...&token=..."
+const isFunction = (val) => typeof val === 'function';
+
+const deferred = {};
+
+const waitUntil = function (name, fx) {
+  if (!deferred[name]) {
+    deferred[name] = [];
+  }
+  deferred[name].push(fx);
+};
+
+const isReady = function (name, value) {
+  if (deferred[name]) {
+    const fxs = deferred[name];
+    delete deferred[name];
+    for (const fx of fxs) {
+      fx(value);
+    }
+  }
+};
+
+const wrapper = function (window, jQuery, wrapperOpts) {
+  let readStorage;
+  let writeStorage;
+  const $ = jQuery;
+
+  let { key, token } = wrapperOpts;
+  const { apiEndpoint, authEndpoint, intentEndpoint, version } = wrapperOpts;
+
+  const baseURL = `${apiEndpoint}/${version}/`;
+  const { location } = window;
+
+  const authorizeURL = function (args) {
+    const baseArgs = {
+      response_type: 'token',
+      key,
     };
-    ! function(e) {
-        var t = {};
 
-        function n(r) {
-            if (t[r]) return t[r].exports;
-            var o = t[r] = {
-                i: r,
-                l: !1,
-                exports: {}
-            };
-            return e[r].call(o.exports, o, o.exports, n), o.l = !0, o.exports
+    return `${authEndpoint}/${version}/authorize?${$.param(
+      $.extend(baseArgs, args)
+    )}`;
+  };
+
+  const parseRestArgs = function (...args) {
+    let [path, params, success, error] = args[0];
+    if (isFunction(params)) {
+      error = success;
+      success = params;
+      params = {};
+    }
+
+    // Get rid of any leading /
+    path = path.replace(new RegExp(`^/*`), '');
+
+    return [path, params, success, error];
+  };
+
+  const Trello = {
+    version() {
+      return version;
+    },
+
+    key() {
+      return key;
+    },
+    setKey(newKey) {
+      key = newKey;
+    },
+
+    token() {
+      return token;
+    },
+    setToken(newToken) {
+      token = newToken;
+    },
+
+    // Issue a REST call to the API
+    //
+    // .rest(method, path, params, success, error)
+    // .rest(method, path, success, error)
+    //
+    // method - The HTTP method to use/simulate (e.g. GET, POST, PUT, DELETE)
+    // path - The API path to use (e.g. "members/me")
+    // params - Optional.  A hash of values to include in the querystring/body
+    //   (e.g. { filter: "open", fields: "name,desc" })
+    // success - Function to call when the request succeeds
+    // error - Function to call when the request fails
+    rest(method, ...args) {
+      const [path, params, success, error] = parseRestArgs(args);
+
+      const restOpts = {
+        url: `${baseURL}${path}`,
+        type: method,
+        data: {},
+        dataType: 'json',
+        success,
+        error,
+      };
+
+      // Only include the key if it's been set to something truthy
+      if (key) {
+        restOpts.data.key = key;
+      }
+      // Only include the token if it's been set to something truthy
+      if (token) {
+        restOpts.data.token = token;
+      }
+
+      if (params != null) {
+        $.extend(restOpts.data, params);
+      }
+
+      return $.ajax(restOpts);
+    },
+
+    // Has Trello been authorized to issue requests on a user's behalf?
+    authorized() {
+      return token != null;
+    },
+
+    // Clear any existing authorization
+    deauthorize() {
+      token = null;
+      writeStorage('token', token);
+    },
+
+    // Request a token that will allow us to make API requests on a user's
+    // behalf
+    //
+    // authorizeOpts =
+    //   type - "redirect" or "popup"
+    //   name - Name to display
+    //   persist - Save the token to local storage?
+    //   interactive - If false, don't redirect or popup, only use the stored
+    //     token, if one exists
+    //   scope - The permissions we're requesting
+    //   expiration - When we want the requested token to expire ("1hour",
+    //     "1day", "30days", "never")
+    authorize(userOpts) {
+      const authorizeOpts = $.extend(
+        true,
+        {
+          type: 'redirect',
+          persist: true,
+          interactive: true,
+          scope: {
+            read: true,
+            write: false,
+            account: false,
+          },
+          expiration: '30days',
+        },
+        userOpts
+      );
+
+      const regexToken = /[&#]?token=([0-9a-f]{64})/;
+
+      const persistToken = function () {
+        if (authorizeOpts.persist && token != null) {
+          writeStorage('token', token);
         }
-        n.m = e, n.c = t, n.d = function(e, t, r) {
-            n.o(e, t) || Object.defineProperty(e, t, {
-                enumerable: !0,
-                get: r
-            })
-        }, n.r = function(e) {
-            "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(e, Symbol.toStringTag, {
-                value: "Module"
-            }), Object.defineProperty(e, "__esModule", {
-                value: !0
-            })
-        }, n.t = function(e, t) {
-            if (1 & t && (e = n(e)), 8 & t) return e;
-            if (4 & t && "object" == typeof e && e && e.__esModule) return e;
-            var r = Object.create(null);
-            if (n.r(r), Object.defineProperty(r, "default", {
-                    enumerable: !0,
-                    value: e
-                }), 2 & t && "string" != typeof e)
-                for (var o in e) n.d(r, o, function(t) {
-                    return e[t]
-                }.bind(null, o));
-            return r
-        }, n.n = function(e) {
-            var t = e && e.__esModule ? function() {
-                return e.default
-            } : function() {
-                return e
-            };
-            return n.d(t, "a", t), t
-        }, n.o = function(e, t) {
-            return Object.prototype.hasOwnProperty.call(e, t)
-        }, n.p = "", n(n.s = 0)
-    }([function(e, t, n) {
-        "use strict";
+      };
 
-        function r(e, t) {
-            return function(e) {
-                if (Array.isArray(e)) return e
-            }(e) || function(e, t) {
-                if ("undefined" == typeof Symbol || !(Symbol.iterator in Object(e))) return;
-                var n = [],
-                    r = !0,
-                    o = !1,
-                    a = void 0;
-                try {
-                    for (var i, c = e[Symbol.iterator](); !(r = (i = c.next()).done) && (n.push(i.value), !t || n.length !== t); r = !0);
-                } catch (e) {
-                    o = !0, a = e
-                } finally {
-                    try {
-                        r || null == c.return || c.return()
-                    } finally {
-                        if (o) throw a
-                    }
+      if (authorizeOpts.persist) {
+        if (token == null) {
+          token = readStorage('token');
+        }
+      }
+
+      if (token == null) {
+        const match = regexToken.exec(location.hash);
+        if (match) {
+          token = match[1];
+        }
+      }
+
+      if (this.authorized()) {
+        persistToken();
+        location.hash = location.hash.replace(regexToken, '');
+        if (isFunction(authorizeOpts.success)) {
+          authorizeOpts.success();
+        }
+        return;
+      }
+
+      // If we aren't in interactive mode, and we didn't get the token from
+      // storage or from the hash, then we error out here
+      if (!authorizeOpts.interactive) {
+        if (isFunction(authorizeOpts.error)) {
+          authorizeOpts.error();
+        }
+        return;
+      }
+
+      const scope = Object.keys(authorizeOpts.scope || {})
+        .reduce((accum, k) => {
+          if (authorizeOpts.scope[k]) {
+            accum.push(k);
+          }
+          return accum;
+        }, [])
+        .join(',');
+
+      switch (authorizeOpts.type) {
+        case 'popup':
+          (function () {
+            waitUntil('authorized', (isAuthorized) => {
+              if (isAuthorized) {
+                persistToken();
+                if (isFunction(authorizeOpts.success)) {
+                  authorizeOpts.success();
                 }
-                return n
-            }(e, t) || o(e, t) || function() {
-                throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")
-            }()
-        }
+                return;
+              }
+              if (isFunction(authorizeOpts.error)) {
+                authorizeOpts.error();
+              }
+            });
 
-        function o(e, t) {
-            if (e) {
-                if ("string" == typeof e) return a(e, t);
-                var n = Object.prototype.toString.call(e).slice(8, -1);
-                return "Object" === n && e.constructor && (n = e.constructor.name), "Map" === n || "Set" === n ? Array.from(e) : "Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n) ? a(e, t) : void 0
+            const width = 720;
+            const height = 800;
+            const left = window.screenX + (window.innerWidth - width) / 2;
+            const top = window.screenY + (window.innerHeight - height) / 2;
+
+            const originMatch = new RegExp(`^[a-z]+://[^/]*`).exec(location);
+            const origin = originMatch && originMatch[0];
+            const authWindow = window.open(
+              authorizeURL({
+                return_url: origin,
+                callback_method: 'postMessage',
+                scope,
+                expiration: authorizeOpts.expiration,
+                name: authorizeOpts.name,
+              }),
+              'trello',
+              `width=${width},height=${height},left=${left},top=${top}`
+            );
+
+            const receiveMessage = function (event) {
+              if (
+                event.origin !== authEndpoint ||
+                event.source !== authWindow
+              ) {
+                return;
+              }
+
+              if (event.source != null) {
+                event.source.close();
+              }
+
+              if (event.data != null && /[0-9a-f]{64}/.test(event.data)) {
+                token = event.data;
+              } else {
+                token = null;
+              }
+
+              if (isFunction(window.removeEventListener)) {
+                window.removeEventListener('message', receiveMessage, false);
+              }
+              isReady('authorized', Trello.authorized());
+            };
+
+            // Listen for messages from the auth window
+            if (isFunction(window.addEventListener)) {
+              window.addEventListener('message', receiveMessage, false);
             }
+          })();
+          break;
+        default:
+          // We're leaving the current page now; but the user should be calling
+          // .authorize({ interactive: false }) on page load
+          window.location = authorizeURL({
+            redirect_uri: location.href,
+            callback_method: 'fragment',
+            scope,
+            expiration: authorizeOpts.expiration,
+            name: authorizeOpts.name,
+          });
+      }
+    },
+
+    // Request that a card be created, using the provided name, description, and
+    // url.  This
+    //
+    // options =
+    //   name - The name to use for the card
+    //   desc - The description to use for the card (optional)
+    //   url - A url to attach to the card (optional)
+    //
+    // next = a method to be called once the card has been created.  The method
+    // should take two arguments, an error and a card.  If next is not defined
+    // then a promise that resolves to the card will be returned.
+    addCard(options, next) {
+      const baseArgs = {
+        mode: 'popup',
+        source: key || window.location.host,
+      };
+
+      const getCard = function (callback) {
+        const returnUrl = function (e) {
+          window.removeEventListener('message', returnUrl);
+          try {
+            const data = JSON.parse(e.data);
+            if (data.success) {
+              callback(null, data.card);
+              return;
+            }
+            callback(new Error(data.error));
+          } catch (error) {} // eslint-disable-line no-empty
+        };
+
+        if (isFunction(window.addEventListener)) {
+          window.addEventListener('message', returnUrl, false);
         }
 
-        function a(e, t) {
-            (null == t || t > e.length) && (t = e.length);
-            for (var n = 0, r = new Array(t); n < t; n++) r[n] = e[n];
-            return r
-        }
-        var i = function(e) {
-                return "function" == typeof e
-            },
-            c = {},
-            u = function(e, t) {
-                if (c[e]) {
-                    var n = c[e];
-                    delete c[e];
-                    var r, a = function(e, t) {
-                        var n;
-                        if ("undefined" == typeof Symbol || null == e[Symbol.iterator]) {
-                            if (Array.isArray(e) || (n = o(e)) || t && e && "number" == typeof e.length) {
-                                n && (e = n);
-                                var r = 0,
-                                    a = function() {};
-                                return {
-                                    s: a,
-                                    n: function() {
-                                        return r >= e.length ? {
-                                            done: !0
-                                        } : {
-                                            done: !1,
-                                            value: e[r++]
-                                        }
-                                    },
-                                    e: function(e) {
-                                        throw e
-                                    },
-                                    f: a
-                                }
-                            }
-                            throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")
-                        }
-                        var i, c = !0,
-                            u = !1;
-                        return {
-                            s: function() {
-                                n = e[Symbol.iterator]()
-                            },
-                            n: function() {
-                                var e = n.next();
-                                return c = e.done, e
-                            },
-                            e: function(e) {
-                                u = !0, i = e
-                            },
-                            f: function() {
-                                try {
-                                    c || null == n.return || n.return()
-                                } finally {
-                                    if (u) throw i
-                                }
-                            }
-                        }
-                    }(n);
-                    try {
-                        for (a.s(); !(r = a.n()).done;) {
-                            (0, r.value)(t)
-                        }
-                    } catch (e) {
-                        a.e(e)
-                    } finally {
-                        a.f()
-                    }
-                }
-            };
-        ! function(e, t, n) {
-            for (var o, a, l = t, s = n.key, f = n.token, d = n.apiEndpoint, p = n.authEndpoint, v = n.intentEndpoint, y = n.version, h = "".concat(d, "/").concat(y, "/"), m = e.location, b = function(e) {
-                    var t = {
-                        response_type: "token",
-                        key: s
-                    };
-                    return "".concat(p, "/").concat(y, "/authorize?").concat(l.param(l.extend(t, e)))
-                }, g = function() {
-                    var e = arguments.length <= 0 ? void 0 : arguments[0],
-                        t = r(e, 4),
-                        n = t[0],
-                        o = t[1],
-                        a = t[2],
-                        c = t[3];
-                    return i(o) && (c = a, a = o, o = {}), [n = n.replace(new RegExp("^/*"), ""), o, a, c]
-                }, w = {
-                    version: function() {
-                        return y
-                    },
-                    key: function() {
-                        return s
-                    },
-                    setKey: function(e) {
-                        s = e
-                    },
-                    token: function() {
-                        return f
-                    },
-                    setToken: function(e) {
-                        f = e
-                    },
-                    rest: function(e) {
-                        for (var t = arguments.length, n = new Array(t > 1 ? t - 1 : 0), o = 1; o < t; o++) n[o - 1] = arguments[o];
-                        var a = g(n),
-                            i = r(a, 4),
-                            c = i[0],
-                            u = i[1],
-                            d = i[2],
-                            p = i[3],
-                            v = {
-                                url: "".concat(h).concat(c),
-                                type: e,
-                                data: {},
-                                dataType: "json",
-                                success: d,
-                                error: p
-                            };
-                        return s && (v.data.key = s), f && (v.data.token = f), null != u && l.extend(v.data, u), l.ajax(v)
-                    },
-                    authorized: function() {
-                        return null != f
-                    },
-                    deauthorize: function() {
-                        a("token", f = null)
-                    },
-                    authorize: function(t) {
-                        var n = l.extend(!0, {
-                                type: "redirect",
-                                persist: !0,
-                                interactive: !0,
-                                scope: {
-                                    read: !0,
-                                    write: !1,
-                                    account: !1
-                                },
-                                expiration: "30days"
-                            }, t),
-                            r = /[&#]?token=([0-9a-f]{64})/,
-                            s = function() {
-                                n.persist && null != f && a("token", f)
-                            };
-                        if (n.persist && null == f && (f = o("token")), null == f) {
-                            var d = r.exec(m.hash);
-                            d && (f = d[1])
-                        }
-                        if (this.authorized()) return s(), m.hash = m.hash.replace(r, ""), void(i(n.success) && n.success());
-                        if (n.interactive) {
-                            var v = Object.keys(n.scope || {}).reduce((function(e, t) {
-                                return n.scope[t] && e.push(t), e
-                            }), []).join(",");
-                            switch (n.type) {
-                                case "popup":
-                                    ! function() {
-                                        var t, r;
-                                        r = function(e) {
-                                            if (e) return s(), void(i(n.success) && n.success());
-                                            i(n.error) && n.error()
-                                        }, c[t = "authorized"] || (c[t] = []), c[t].push(r);
-                                        var o = e.screenX + (e.innerWidth - 720) / 2,
-                                            a = e.screenY + (e.innerHeight - 800) / 2,
-                                            l = new RegExp("^[a-z]+://[^/]*").exec(m),
-                                            d = l && l[0],
-                                            y = e.open(b({
-                                                return_url: d,
-                                                callback_method: "postMessage",
-                                                scope: v,
-                                                expiration: n.expiration,
-                                                name: n.name
-                                            }), "trello", "width=".concat(720, ",height=").concat(800, ",left=").concat(o, ",top=").concat(a));
-                                        i(e.addEventListener) && e.addEventListener("message", (function t(n) {
-                                            n.origin === p && n.source === y && (null != n.source && n.source.close(), f = null != n.data && /[0-9a-f]{64}/.test(n.data) ? n.data : null, i(e.removeEventListener) && e.removeEventListener("message", t, !1), u("authorized", w.authorized()))
-                                        }), !1)
-                                    }();
-                                    break;
-                                default:
-                                    e.location = b({
-                                        redirect_uri: m.href,
-                                        callback_method: "fragment",
-                                        scope: v,
-                                        expiration: n.expiration,
-                                        name: n.name
-                                    })
-                            }
-                        } else i(n.error) && n.error()
-                    },
-                    addCard: function(t, n) {
-                        var r = {
-                                mode: "popup",
-                                source: s || e.location.host
-                            },
-                            o = function(n) {
-                                i(e.addEventListener) && e.addEventListener("message", (function t(r) {
-                                    e.removeEventListener("message", t);
-                                    try {
-                                        var o = JSON.parse(r.data);
-                                        if (o.success) return void n(null, o.card);
-                                        n(new Error(o.error))
-                                    } catch (e) {}
-                                }), !1);
-                                var o = e.screenX + (e.outerWidth - 500) / 2,
-                                    a = e.screenY + (e.outerHeight - 600) / 2;
-                                return e.open("".concat(v, "/add-card?").concat(l.param(l.extend(r, t))), "trello", "width=".concat(500, ",height=").concat(600, ",left=").concat(o, ",top=").concat(a))
-                            };
-                        if (null == n) return e.Promise ? new Promise((function(e, t) {
-                            return o((function(n, r) {
-                                n ? t(n) : e(r)
-                            }))
-                        })) : void o((function() {}));
-                        o(n)
-                    }
-                }, x = function() {
-                    var e = k[E];
-                    w[e.toLowerCase()] = function() {
-                        for (var t = arguments.length, n = new Array(t), r = 0; r < t; r++) n[r] = arguments[r];
-                        return this.rest.apply(this, [e].concat(n))
-                    }
-                }, E = 0, k = ["GET", "PUT", "POST", "DELETE"]; E < k.length; E++) x();
-            w.del = w.delete;
-            for (var S = function() {
-                    var e = _[j];
-                    w[e] = {
-                        get: function(t, n, r, o) {
-                            return w.get("".concat(e, "/").concat(t), n, r, o)
-                        }
-                    }
-                }, j = 0, _ = ["actions", "cards", "checklists", "boards", "lists", "members", "organizations", "lists"]; j < _.length; j++) S();
-            e.Trello = w;
-            var O = e.localStorage;
-            if (null != O) {
-                o = function(e) {
-                    return O["trello_" + e]
-                }, a = function(e, t) {
-                    if (null !== t) try {
-                        O["trello_" + e] = t
-                    } catch (e) {} else delete O["trello_" + e]
-                }
-            } else o = function() {}, a = function() {}
-        }(window, jQuery, opts)
-    }]);
-})()
+        const width = 500;
+        const height = 600;
+        const left = window.screenX + (window.outerWidth - width) / 2;
+        const top = window.screenY + (window.outerHeight - height) / 2;
+
+        return window.open(
+          `${intentEndpoint}/add-card?${$.param($.extend(baseArgs, options))}`,
+          'trello',
+          `width=${width},height=${height},left=${left},top=${top}`
+        );
+      };
+
+      if (next != null) {
+        getCard(next);
+        return undefined;
+      }
+      if (window.Promise) {
+        return new Promise((resolve, reject) =>
+          getCard((err, card) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(card);
+            }
+          })
+        );
+      }
+      getCard(() => {});
+      return undefined;
+    },
+  };
+
+  // Hook up some convenience methods for HTTP methods
+  //
+  // Trello.get(path, params, success, error)
+  // Trello.put(path, params, success, error)
+  // Trello.post(path, params, success, error)
+  // Trello.delete(path, params, success, error)
+  for (const type of ['GET', 'PUT', 'POST', 'DELETE']) {
+    Trello[type.toLowerCase()] = function (...args) {
+      return this.rest(type, ...args);
+    };
+  }
+
+  // Provide another alias for Trello.delete, since delete is a keyword in
+  // javascript
+  Trello.del = Trello.delete;
+
+  // Hook up convenience methods for the different collections
+  // e.g. Trello.cards(id, params, success, error)
+  for (const collection of [
+    'actions',
+    'cards',
+    'checklists',
+    'boards',
+    'lists',
+    'members',
+    'organizations',
+    'lists',
+  ]) {
+    Trello[collection] = {
+      get(id, params, success, error) {
+        return Trello.get(`${collection}/${id}`, params, success, error);
+      },
+    };
+  }
+
+  window.Trello = Trello;
+
+  const { localStorage } = window;
+
+  if (localStorage != null) {
+    const storagePrefix = 'trello_';
+    readStorage = (k) => localStorage[storagePrefix + k];
+    writeStorage = function (k, value) {
+      if (value === null) {
+        delete localStorage[storagePrefix + k];
+        return;
+      }
+      try {
+        localStorage[storagePrefix + k] = value;
+      } catch (error) {} // eslint-disable-line no-empty
+    };
+  } else {
+    readStorage = function () {};
+    writeStorage = function () {};
+  }
+};
+
+wrapper(window, jQuery, opts);
