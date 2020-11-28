@@ -1,2 +1,2 @@
-const APP_KEY = 'bc7ad1319dd00412be69111a8db6b389';
+const APP_KEY = 'b891af3a0d98ce8944cb61daf088bc8c';
 const AnalyticsCode = 'UA-111263623-5';
