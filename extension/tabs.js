@@ -55,9 +55,31 @@ document.addEventListener('DOMContentLoaded', function () {
 
       ]);
       if (boards){
+        const name_shortLink = {}
+        boards.map((b,i)=>{
+          name_shortLink[i] = {
+            name: b.name,
+            board_id: 'https://trello.com/b/' + b.shortLink
+          }
+        });
+        let dropdown = document.getElementById('list_boards');
+        dropdown.length = 0;
+        let defaultOption = document.createElement('option');
+        defaultOption.text = 'Hi';
+        dropdown.add(defaultOption);
+        dropdown.selectedIndex = 0;
 
-        statsContainer.textContent = JSON.stringify(boards[0]);
+        // let option;
+        // boards.map((b,i)=>{
+
+        //   option = document.createElement('option');
+        //   option.text = b.name;
+        //   option.value = 'https://trello.com/b/' + b.shortLink
+        //   dropdown.add(option);
+        // });
+        statsContainer.textContent = JSON.stringify(name_shortLink);
       }
+
       if (listData && listData.length > 0) {
         listsOfData = listData.map(({ id, name }) => ({ id, name, noOfCounts: 0 }));
 

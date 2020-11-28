@@ -15,6 +15,8 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
     var alertBox = document.getElementById('alert_box');
     var alertBoxButton = document.getElementById('close_alert');
     var user_board_url = localStorage.getItem('user_board_url');
+    var use_board_list = document.getElementById("use_board_list");
+    var board_url_list = document.getElementById("board_url_list");
     var today = new Date();
     const monthNames = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
@@ -48,13 +50,49 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
         working();
     }
 
+    async function getBoardsList() {
+    try {
+    
+            const [ boards] = await Promise.all([Trello.get(
+            `/members/me/boards?token=${token}`)]);
+            if (boards) {
+                const name_shortLink = {}
+                boards.map((b,i)=> {
+                    name_shortLink[i] = {
+                    name: b.name,
+                    board_id: 'https://trello.com/b/' + b.shortLink
+                    }
+                });
+                let dropdown = document.getElementById('list_boards');
+                dropdown.length = 0;
+                let defaultOption = document.createElement('option');
+                defaultOption.text = 'Hi';
+                dropdown.add(defaultOption);
+                dropdown.selectedIndex = 0;
+
+                let option;
+                boards.map((b,i)=>{
+
+                  option = document.createElement('option');
+                  option.text = b.name;
+                  option.value = 'https://trello.com/b/' + b.shortLink
+                  dropdown.add(option);
+                });
+                // statsContainer.textContent = JSON.stringify(name_shortLink);
+            }
+            
+        } catch (err) {
+    
+        }
+    }
+
     /*
      * Lets user create or add their Trello board and save to local storage 
      */
     function board_set_up_function() {
         board_missing_div.style.display = 'block';
         oauth_ok_div.style.display = 'none';
-
+        getBoardsList();
         set_board.addEventListener('click', function () {
             document.getElementById("set_board").textContent = "preparing your board...";
 
@@ -91,6 +129,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
 
     create_board.addEventListener('click', function () {
         board_url_div.style.display = "none";
+        board_url_list.style.display = "none";
         clear_board_url_data();
     });
 
@@ -102,9 +141,13 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
 
     use_existing_board.addEventListener('click', function () {
         board_url_div.style.display = "block";
+        board_url_list.style.display = "none";
     });
 
-
+    use_board_list.addEventListener('click', function(){
+        board_url_div.style.display = "none";
+        board_url_list.style.display = "block";
+    });
 
     function board_use_existing_function() {
         const userBoardId = extract_board_id(board_url.value);
@@ -200,7 +243,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
                     document.getElementById('data_url').value = tab.url;
                 });
             } catch (error) {
-                onError();
+                // onError();
             }
         }
 
