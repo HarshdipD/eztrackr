@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
       ), Trello.get(
         `/boards/${board_id}/cards?token=${token}`
       )]);
+    
       if (listData && listData.length > 0) {
         listsOfData = listData.map(({ id, name }) => ({ id, name, noOfCounts: 0 }));
 

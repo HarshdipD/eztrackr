@@ -15,6 +15,10 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
     var alertBox = document.getElementById('alert_box');
     var alertBoxButton = document.getElementById('close_alert');
     var user_board_url = localStorage.getItem('user_board_url');
+    var use_board_list = document.getElementById("use_board_list");
+    var board_url_list = document.getElementById("board_url_list");
+    var list_boards = document.getElementById("list_boards");
+    var board_label = document.getElementById("board_label");
     var today = new Date();
     const monthNames = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
@@ -48,19 +52,50 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
         working();
     }
 
+    async function getBoardsList() {
+    try {
+    
+            const [ boards] = await Promise.all([Trello.get(
+            `/members/me/boards?token=${token}`)]);
+            if (boards) {
+   
+                let dropdown = document.getElementById('list_boards');
+                dropdown.length = 0;
+                let defaultOption = document.createElement('option');
+                defaultOption.text = 'Choose your board';
+                dropdown.add(defaultOption);
+                dropdown.selectedIndex = 0;
+
+                let option;
+                boards.map((b,idex)=>{
+                  option = document.createElement('option');
+                  option.text = b.name;
+                  option.value = b.shortLink
+                  dropdown.add(option);
+                
+                });
+            }
+            
+        } catch (err) {
+    
+        }
+    }
+
     /*
      * Lets user create or add their Trello board and save to local storage 
      */
     function board_set_up_function() {
         board_missing_div.style.display = 'block';
         oauth_ok_div.style.display = 'none';
-
+        getBoardsList();
         set_board.addEventListener('click', function () {
             document.getElementById("set_board").textContent = "preparing your board...";
 
             if (create_board.checked) {
                 board_create_function();
-            } else {
+            } else if(use_existing_board.checked) {
+                board_use_existing_function();
+            } else if(use_board_list.checked){
                 board_use_existing_function();
             }
         });
@@ -91,6 +126,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
 
     create_board.addEventListener('click', function () {
         board_url_div.style.display = "none";
+        board_url_list.style.display = "none";
         clear_board_url_data();
     });
 
@@ -102,12 +138,22 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
 
     use_existing_board.addEventListener('click', function () {
         board_url_div.style.display = "block";
+        board_url_list.style.display = "none";
     });
 
-
+    use_board_list.addEventListener('click', function(){
+        board_url_div.style.display = "none";
+        board_url_list.style.display = "block";
+    });
 
     function board_use_existing_function() {
-        const userBoardId = extract_board_id(board_url.value);
+        var userBoardId = "";
+        if(use_existing_board.checked){
+            userBoardId = extract_board_id(board_url.value);
+        }
+        else if(use_board_list.checked){
+            userBoardId = list_boards.options[list_boards.selectedIndex].value;
+        }
 
         if (userBoardId) {
             Trello.get(`/boards/${userBoardId}?token=${token}`)
@@ -200,7 +246,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
                     document.getElementById('data_url').value = tab.url;
                 });
             } catch (error) {
-                onError(error);
+                // onError();
             }
         }
 

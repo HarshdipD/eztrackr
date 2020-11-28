@@ -115,20 +115,30 @@
             <div class="form-check form-check-inline mb-2">
                 <input class="form-check-input" type="radio" id="create_board" name="board_choice" value="create_board"
                     checked>
-                <label class="form-check-label" for="create_board">Create board</label>
+                <label class="form-check-label" for="create_board">Create a new board</label>
             </div>
             <div class="form-check form-check-inline mb-2">
                 <input class="form-check-input" type="radio" id="use_existing_board" name="board_choice"
                     value="use_existing_board">
-                <label class="form-check-label" for="use_existing_board">Use my board</label><br>
+                <label class="form-check-label" for="use_existing_board">Enter your board id</label><br>
+            </div>
+            <div class="form-check form-check-inline mb-2">
+                <input class="form-check-input" type="radio" id="use_board_list" name="board_choice"
+                    value="use_board_list">
+                <label class="form-check-label" for="use_board_list">Select from your board list</label><br>
             </div>
             <div class="form-group" id="board_url_div" style="display: none;">
                 <input type="url" class="form-control mt-2 mb-2" id="board_url"
                     placeholder="https://trello.com/b/my_board_id" autocomplete="off">
                 <span id="board_url_error" class="text-danger"></span>
             </div>
+            <div class="form-group" id="board_url_list" style="display: none;">
+                <label id="board_label"></label>
+                <select class="form-control" id="list_boards">
+                </select>
+            </div>
         </form>
-        <button class="btn btn-success" id="set_board">Done</button>
+        <button class="btn btn-success" id="set_board" style="margin-top: 10px;">Done</button>
     </div>
 
     <!-- successfully posted alert -->

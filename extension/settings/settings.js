@@ -35,17 +35,20 @@ function init() {
                         } catch (error) {
                             // do nothing
                         }
-        
                     }
            
                     if(isFirefox){
-                      
-                        browser.runtime.sendMessage(null,{
-                            command: 'saveToken',
-                            token: localStorage.getItem('trello_token')
-                        });
-                        let querying = browser.tabs.query({currentWindow: true, active: true});
-                        querying.then(removeTab, onError);
+                        try {
+                            browser.runtime.sendMessage(null,{
+                                command: 'saveToken',
+                                token: localStorage.getItem('trello_token')
+                            });
+                            let querying = browser.tabs.query({currentWindow: true, active: true});
+                            querying.then(removeTab, onError);
+                        } catch (error){
+                            
+                        }
+
                         
                     }
                     
