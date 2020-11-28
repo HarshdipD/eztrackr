@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
     var user_board_url = localStorage.getItem('user_board_url');
     var use_board_list = document.getElementById("use_board_list");
     var board_url_list = document.getElementById("board_url_list");
+    var list_boards = document.getElementById("list_boards");
+    var board_label = document.getElementById("board_label");
     var today = new Date();
     const monthNames = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
@@ -56,29 +58,22 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
             const [ boards] = await Promise.all([Trello.get(
             `/members/me/boards?token=${token}`)]);
             if (boards) {
-                const name_shortLink = {}
-                boards.map((b,i)=> {
-                    name_shortLink[i] = {
-                    name: b.name,
-                    board_id: 'https://trello.com/b/' + b.shortLink
-                    }
-                });
+   
                 let dropdown = document.getElementById('list_boards');
                 dropdown.length = 0;
                 let defaultOption = document.createElement('option');
-                defaultOption.text = 'Hi';
+                defaultOption.text = 'Choose your board';
                 dropdown.add(defaultOption);
                 dropdown.selectedIndex = 0;
 
                 let option;
-                boards.map((b,i)=>{
-
+                boards.map((b,idex)=>{
                   option = document.createElement('option');
                   option.text = b.name;
-                  option.value = 'https://trello.com/b/' + b.shortLink
+                  option.value = b.shortLink
                   dropdown.add(option);
+                
                 });
-                // statsContainer.textContent = JSON.stringify(name_shortLink);
             }
             
         } catch (err) {
@@ -98,7 +93,9 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
 
             if (create_board.checked) {
                 board_create_function();
-            } else {
+            } else if(use_existing_board.checked) {
+                board_use_existing_function();
+            } else if(use_board_list.checked){
                 board_use_existing_function();
             }
         });
@@ -150,7 +147,13 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
     });
 
     function board_use_existing_function() {
-        const userBoardId = extract_board_id(board_url.value);
+        var userBoardId = "";
+        if(use_existing_board.checked){
+            userBoardId = extract_board_id(board_url.value);
+        }
+        else if(use_board_list.checked){
+            userBoardId = list_boards.options[list_boards.selectedIndex].value;
+        }
 
         if (userBoardId) {
             Trello.get(`/boards/${userBoardId}?token=${token}`)
