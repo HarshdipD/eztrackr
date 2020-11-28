@@ -38,12 +38,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
   async function getCardsList() {
     try {
-
-      const [listData, cardsData] = await Promise.all([Trello.get(
+      // const [res] = await Promise.all([Trello.get(
+      //   `/members/me/boards`
+      // )])
+      // if( res ){
+      //   statsContainer.appendChild(JSON.stringify(res))
+      // }
+    
+      const [listData, cardsData, boards] = await Promise.all([Trello.get(
         `/boards/${board_id}/lists?token=${token}`
       ), Trello.get(
         `/boards/${board_id}/cards?token=${token}`
-      )]);
+      ), Trello.get(
+        `/members/me/boards?token=${token}`
+      )
+
+      ]);
+      if (boards){
+
+        statsContainer.textContent = JSON.stringify(boards[0]);
+      }
       if (listData && listData.length > 0) {
         listsOfData = listData.map(({ id, name }) => ({ id, name, noOfCounts: 0 }));
 

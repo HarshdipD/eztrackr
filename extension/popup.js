@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
                     document.getElementById('data_url').value = tab.url;
                 });
             } catch (error) {
-                onError(error);
+                onError();
             }
         }
 
