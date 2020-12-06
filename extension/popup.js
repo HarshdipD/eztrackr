@@ -340,7 +340,10 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
                             abc.style.display = 'block';
                         }
                     })
-                    .catch(err => console.error(err));
+                    .catch(err => {
+                        console.error(err);
+                        displayError('There was an issue posting this card to Trello. Please try again.');
+                    });
             } else {
                 displayError('Please choose a list to add the job to.');
                 document.getElementById('list_options').focus();
