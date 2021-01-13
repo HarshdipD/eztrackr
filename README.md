@@ -11,7 +11,7 @@ The extension also shows you current statistics 📈, and even auto-fills the fi
 ## Install it here:
 🌐 Chrome: <a href="https://chrome.google.com/webstore/detail/eztrackr/kdpbamlhffmfbgglmaedhopenkpgkfdg" target="_blank">Webstore link</a>
 <br />
-🌐 Firefox: <a href="https://addons.mozilla.org/en-US/firefox/addon/eztrackr/" target="_blank">Mozilla Add-ons link</a>
+🌐 Firefox: We're working on a fix for this browser. Stay tuned or join in to help!
 <br />
 <br />
 <span>
