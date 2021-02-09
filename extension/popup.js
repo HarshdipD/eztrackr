@@ -313,7 +313,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
         checkPageButton.addEventListener('click', function () {
 
             // Button Click Event to send to Analytics
-            // _gaq.push(['_trackEvent', 'Add To Trello', 'clicked']);
+            _gaq.push(['_trackEvent', 'Add To Trello', 'clicked']);
 
             // Here's we'll make the card contents to POST
             let data_url = document.getElementById('data_url').value;
