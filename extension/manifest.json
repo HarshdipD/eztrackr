@@ -2,11 +2,7 @@
     "manifest_version": 2,
     "name": "Eztrackr",
     "description": "Ease your job hunt by adding your jobs in an organized Trello board",
-    "version": "2.0.2",
-    "background" : {
-        "page" : "popup.html",
-        "persistent": false
-    },
+    "version": "3.0.0",
     "browser_action": {
         "default_icon": "icons/icon_48.png",
         "default_popup": "popup.html"

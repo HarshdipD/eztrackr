@@ -284,7 +284,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // POST all the field data in trello board
         checkPageButton.addEventListener('click', function () {
 
-            _gaq.push(['_trackEvent', 'Add To Trello', 'clicked']);
+            // _gaq.push(['_trackEvent', 'Add To Trello', 'clicked']);
 
             let data_url = document.getElementById('data_url').value;
             let data_company = document.getElementById('data_company').value;
