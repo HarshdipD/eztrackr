@@ -42,6 +42,7 @@ html, body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
 }
 
 nav {
@@ -54,10 +55,18 @@ nav {
 }
 
 main {
-    display: flex;
-    flex-direction: column;
+    text-align: center;
+    display: flex !important;
     justify-content: center;
     align-items: center;
+}
+
+section {
+    text-align: center;
+}
+
+main, nav, footer {
+    width: 100%;
 }
 
 main button {
@@ -66,6 +75,7 @@ main button {
 
 #loggedin, #loggedout {
     text-align: center;
+    width: 30%;
 }
 
 main span {

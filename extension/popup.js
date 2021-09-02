@@ -74,14 +74,15 @@ document.addEventListener('DOMContentLoaded', function () {
     reset_board.addEventListener('click', function () {
         localStorage.removeItem('board_id');
         localStorage.removeItem('board_url');
-        window.close();
+        settings.style.display = 'none';
+        board_missing_div.style.display = 'block';
     });
 
     logout.addEventListener('click', function () {
         localStorage.removeItem('board_id');
         localStorage.removeItem('board_url');
         localStorage.removeItem('trello_token');
-        window.close();
+        chrome.tabs.create({url: chrome.extension.getURL('settings/index.html')});
     });
 
     function board_set_up_function() {
@@ -208,6 +209,7 @@ document.addEventListener('DOMContentLoaded', function () {
      * main function to create cards
      */
     function working() {
+
         // initializing it again in case this is first time of use
         board_id = localStorage.getItem('board_id');
 
@@ -216,6 +218,7 @@ document.addEventListener('DOMContentLoaded', function () {
         anchor_1.href = localStorage.getItem('user_board_url') ? `${user_board_url}` : 'https://trello.com/';
         anchor_2.href = localStorage.getItem('user_board_url') ? `${user_board_url}` : 'https://trello.com/';
 
+        settings_icon.style.display = 'block';
         oauth_ok_div.style.display = 'block';
         board_missing_div.style.display = 'none';
 
@@ -282,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // POST all the field data in trello board
         checkPageButton.addEventListener('click', function () {
 
-            _gaq.push(['_trackEvent', 'Add To Trello', 'clicked']);
+            // _gaq.push(['_trackEvent', 'Add To Trello', 'clicked']);
 
             let data_url = document.getElementById('data_url').value;
             let data_company = document.getElementById('data_company').value;

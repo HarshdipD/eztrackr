@@ -9,9 +9,8 @@
     <script src="lib/require.js"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key="></script>
 </head>
 
 <body>
@@ -28,7 +27,8 @@
         <h5>Set up a board</h5>
         <p>Let's start by setting up a Trello board!</p>
         <p>
-            You can check your boards at <a href="https://trello.com/" target="_blank">Trello's website</a>.
+            You can check your boards at <a href="https://trello.com/" class="text-dark" target="_blank">Trello's
+            website</a>.
         </p>
 
         <form>
@@ -84,11 +84,21 @@
     <div class="container py-2" id="oauth_ok">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active show" id="home-tab" data-toggle="tab" href="#add_post_form" role="tab"
-                   aria-controls="form" aria-selected="true">Add Job</a>
+                <a class="nav-link active show text-dark"
+                   id="home-tab"
+                   data-toggle="tab"
+                   href="#add_post_form"
+                   role="tab"
+                   aria-controls="form"
+                   aria-selected="true">Add Job</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#stats" role="tab" aria-controls="stats"
+                <a class="nav-link  text-dark"
+                   id="profile-tab"
+                   data-toggle="tab"
+                   href="#stats"
+                   role="tab"
+                   aria-controls="stats"
                    aria-selected="false">Stats</a>
             </li>
         </ul>
@@ -169,10 +179,12 @@
         <div class="tab-content" id="tab-content">
             <!-- form tabs started -->
             <div class="tab-pane fade statistics" id="stats" role="tabpanel" aria-labelledby="form-tab">
-                <p style="font-size: 1em">Here are the current number of cards in your lists. <a id="user_board_url_1"
-                                                                                                 target="_blank"
-                                                                                                 href="https://trello.com">Click
-                    here</a> to check out your
+                <p style="font-size: 1em">Here are the current number of cards in your lists.
+                    <a id="user_board_url_1"
+                       target="_blank"
+                       href="https://trello.com"
+                    class="text-dark"><b>Click
+                        here</b></a> to check out your
                     board at Trello.</p>
                 <div class="text-center" id="loader">
                     <div class="spinner-border text-primary" role="status">
@@ -191,7 +203,6 @@
         <button class="btn btn-outline-danger" id="logout">Disconnect Trello</button>
         <button class="btn btn-secondary" id="close_settings">Back</button>
     </div>
-
 
 
     <div class="container py-2">

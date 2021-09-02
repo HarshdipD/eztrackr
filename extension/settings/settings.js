@@ -1,16 +1,4 @@
 function init() {
-    var isFirefox = typeof InstallTrigger !== 'undefined';
-    var isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
-
-    // Firefox browser functions
-
-    function onError(error) {
-        console.log(error);
-    }
-
-    function removeTab(tab) {
-        browser.tabs.remove(tab[0].id);
-    }
 
     // Check if page load is a redirect back from the auth procedure
     if (HashSearch.keyExists('token')) {
@@ -23,36 +11,12 @@ function init() {
                 scope: {read: true, write: true},
                 success: function () {
 
-                    if (isChrome) {
-                        try {
-                            chrome.extension.sendMessage({
-                                command: 'saveToken',
-                                token: localStorage.getItem('trello_token')
-                            }, function (data) {
-                                chrome.tabs.getCurrent(function (tab) {
-                                    chrome.tabs.remove(tab.id)
-                                });
-                            });
-                        } catch (error) {
-                            // do nothing
-                        }
-                    }
-
-                    if (isFirefox) {
-                        try {
-                            browser.runtime.sendMessage(null, {
-                                command: 'saveToken',
-                                token: localStorage.getItem('trello_token')
-                            });
-                            let querying = browser.tabs.query({currentWindow: true, active: true});
-                            querying.then(removeTab, onError);
-                        } catch (error) {
-
-                        }
-
-
-                    }
-
+                    try {
+                        chrome.extension.sendMessage({
+                            command: 'saveToken',
+                            token: localStorage.getItem('trello_token')
+                        }, function (data) {});
+                    } catch (error) {}
                 },
                 error: function () {
                     alert("Failed to authorize with Trello.")
@@ -68,7 +32,7 @@ function init() {
     $("#trello_helper_logout").click(function () {
 
         // Authorize Button Click Event
-        _gaq.push(['_trackEvent', 'Authorize Button', 'clicked']);
+        // _gaq.push(['_trackEvent', 'Authorize Button', 'clicked']);
 
         Trello.setKey(APP_KEY);
         Trello.authorize(
