@@ -18,14 +18,11 @@ document.addEventListener('DOMContentLoaded', function () {
     let use_board_list = document.getElementById("use_board_list");
     let board_url_list = document.getElementById("board_url_list");
     let list_boards = document.getElementById("list_boards");
-    let board_label = document.getElementById("board_label");
     let today = new Date();
     const monthNames = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
     ];
     const trelloBoardUrlPattern = /https\:\/\/trello\.com\/b\/(.{8})(\/.*)?$/;
-
-    var isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
 
     // Authorize user if token does not exist
     if (!token) {
@@ -106,7 +103,6 @@ document.addEventListener('DOMContentLoaded', function () {
      * Returns JSON object of board details
      * Send further POST requests to create 5 lists (Wishlist, InProgress, Applied, Offer, Rejected)
      */
-
     function board_create_function() {
 
         document.getElementById("set_board").textContent = "Preparing your board...";
@@ -189,7 +185,6 @@ document.addEventListener('DOMContentLoaded', function () {
         // initializing it again in case this is first time of use
         board_id = localStorage.getItem('board_id');
 
-        // add url for boards
         let anchor_1 = document.getElementById('user_board_url_1');
         let anchor_2 = document.getElementById('user_board_url_2');
         anchor_1.href = localStorage.getItem('user_board_url') ? `${user_board_url}` : 'https://trello.com/';
@@ -205,8 +200,6 @@ document.addEventListener('DOMContentLoaded', function () {
         dropdown.add(defaultOption);
         dropdown.selectedIndex = 0;
 
-        // fetches all the lists from the board whose id is ${board_id}
-        // this is to be populated in the drop down of the extension
         Trello.get(`/boards/${board_id}/lists?token=${token}`)
             .then(data => {
                 let option;
@@ -223,27 +216,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 board_set_up_function();
             });
 
-        // START POPULATING FIELDS
+        chrome.tabs.getSelected(null, function (tab) {
+            document.getElementById('data_url').value = tab.url;
+        });
 
-        // For LinkedIn, fetch comapany name, position and location by web scraping
-        // To do: other common job posting websites - this would require more organized code, different function for each website.
-        if (isChrome) {
-            // using try & catch to handle error 
-            // since Firefox does not recognize "chrome"
-            try {
-                chrome.tabs.getSelected(null, function (tab) {
-                    document.getElementById('data_url').value = tab.url;
-                });
-            } catch (error) {
-                // onError();
-            }
-        }
+        // FIXME: LinkedIn parse doesn't work through extension... :(
+        // updateFields(getFieldsFromDOM());
 
         function getFieldsFromDOM() {
             let fields = []
-            //Account for Companies which have no URL/Link
+            // Account for Companies which have no URL/Link
             try {
-                let url = document.getElementsByClassName("jobs-details-top-card__company-url")[0].innerText.trim();
+                let url = document.getElementsByClassName("jobs-unified-top-card__content--two-pane")[0].innerText.trim();
                 fields.push(url)
             } catch {
                 var childNodes = document.getElementsByClassName("jobs-details-top-card__company-info")[0].childNodes;
@@ -255,13 +239,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
                 fields.push(result.trim())
             }
-            fields.push(document.getElementsByClassName("jobs-details-top-card__job-title")[0].innerText.trim())
+            fields.push(document.getElementsByClassName('jobs-unified-top-card__subtitle-primary-grouping')[0].innerText)
             fields.push(document.getElementsByClassName("jobs-details-top-card__bullet")[0].innerText.trim())
 
             return fields;
         }
 
-        // if the website isn't LinkedIn, there will be error in console. Do not worry, for this is temporary :)
         function updateFields(results) {
             try {
                 document.getElementById('data_company').value = results[0][0];
@@ -272,34 +255,17 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
-        const code = '(' + getFieldsFromDOM + ')();';
-        if (isChrome) {
-            try {
-                chrome.tabs.executeScript({
-                    code
-                }, (results) => {
-                    updateFields(results);
-                });
-            } catch (error) {
-                onError(error);
-            }
-        }
-        // END POPULATING FIELDS
-
-
-        // On button click, POST all the field data in trello board
+        // POST all the field data in trello board
         checkPageButton.addEventListener('click', function () {
 
-            // Button Click Event to send to Analytics
             _gaq.push(['_trackEvent', 'Add To Trello', 'clicked']);
 
-            // Here's we'll make the card contents to POST
             let data_url = document.getElementById('data_url').value;
             let data_company = document.getElementById('data_company').value;
             let data_position = document.getElementById('data_position').value;
             let data_location = document.getElementById('data_location').value;
             let data_notes = document.getElementById('data_notes').value;
-            idList = document.getElementById('list_options').value;
+            let idList = document.getElementById('list_options').value;
             let date_applied = today.getDate() + " " + monthNames[today.getMonth()] + ", " + today.getFullYear();
 
             let description = encodeURIComponent(`URL: ${data_url} \n Company: ${data_company} \n Position: ${data_position} \n Location: ${data_location} \n Date Applied: ${date_applied} \n\n Notes: ${data_notes}`);
@@ -307,12 +273,10 @@ document.addEventListener('DOMContentLoaded', function () {
             if (idList !== 'Choose list') {
                 Trello.post(`/cards?key=${APP_KEY}&token=${token}&idList=${idList}&name=${data_company} - ${data_position}&desc=${description}`)
                     .then(response => {
-                        console.log("result", response);
+                        console.log('result', response);
                         if (response.status === 400 || response.status === 401 || response.status === 403) {
-                            // now change divs
                             displayError('There was an issue posting this card to Trello. Please try again.');
                         } else {
-                            // now change divs
                             let abc = document.getElementById('post_success');
                             oauth_ok_div.style.display = 'none';
                             abc.style.display = 'block';
@@ -326,7 +290,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 displayError('Please choose a list to add the job to.');
                 document.getElementById('list_options').focus();
             }
-
         }, false);
 
         function displayError(txt) {
@@ -349,22 +312,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
 }, false);
 
-
 /*
      * Wire googlemap api
      * countryRestrict : [] returns cities from the all the country. 
 */
-// google.maps.event.addDomListener(window, 'load', initAutoComplete);
-// let autocomplete;
-// let countryRestrict = { country: [] };
+/*
+    google.maps.event.addDomListener(window, 'load', initAutoComplete);
+    let autocomplete;
+    let countryRestrict = { country: [] };
 
-// function initAutoComplete() {
-//     autocomplete = new google.maps.places.Autocomplete(
-//         document.getElementById("data_location"),
-//         {
-//             types: ["(cities)"],
-//             componentRestrictions: countryRestrict,
-//         }
-//     )
+    function initAutoComplete() {
+        autocomplete = new google.maps.places.Autocomplete(
+            document.getElementById("data_location"),
+            {
+                types: ["(cities)"],
+                componentRestrictions: countryRestrict,
+            }
+        )
 
-// }
+    }
+ */
