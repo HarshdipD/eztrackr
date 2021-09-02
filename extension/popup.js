@@ -305,7 +305,7 @@ document.addEventListener('DOMContentLoaded', function () {
             let description = encodeURIComponent(`URL: ${data_url} \n Company: ${data_company} \n Position: ${data_position} \n Location: ${data_location} \n Date Applied: ${date_applied} \n\n Notes: ${data_notes}`);
 
             if (idList !== 'Choose list') {
-                Trello.post(`/cards?key=${APP_KEY}&token=${token}&idList=${idList}&name=${data_company}&desc=${description}`)
+                Trello.post(`/cards?key=${APP_KEY}&token=${token}&idList=${idList}&name=${data_company} - ${data_position}&desc=${description}`)
                     .then(response => {
                         console.log("result", response);
                         if (response.status === 400 || response.status === 401 || response.status === 403) {
