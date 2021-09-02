@@ -22,6 +22,10 @@ nav span:nth-child(2) {
     display: none;
 }
 
+#settings_icon {
+    cursor: pointer;
+}
+
 #settings button {
     margin-top: 10px;
     margin-bottom: 10px;

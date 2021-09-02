@@ -74,14 +74,15 @@ document.addEventListener('DOMContentLoaded', function () {
     reset_board.addEventListener('click', function () {
         localStorage.removeItem('board_id');
         localStorage.removeItem('board_url');
-        window.close();
+        settings.style.display = 'none';
+        board_missing_div.style.display = 'block';
     });
 
     logout.addEventListener('click', function () {
         localStorage.removeItem('board_id');
         localStorage.removeItem('board_url');
         localStorage.removeItem('trello_token');
-        window.close();
+        chrome.tabs.create({url: chrome.extension.getURL('settings/index.html')});
     });
 
     function board_set_up_function() {
