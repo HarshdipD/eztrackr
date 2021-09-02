@@ -108,36 +108,50 @@
                         <select class="form-control" id="list_options">
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="data_url">URL</label>
-                        <input class="form-control"
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label for="data_url"
+                                   class="input-group-text data_url">URL</label>
+                        </div>
+                        <input class="form-control data_form"
                                id="data_url"
                                placeholder=""
                                autocomplete="off">
                     </div>
-                    <div class="form-group">
-                        <label for="data_company">Company</label>
-                        <input class="form-control"
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label for="data_company"
+                                   class="input-group-text">Company</label>
+                        </div>
+                        <input class="form-control data_form"
                                id="data_company"
                                placeholder=""
                                autocomplete="off">
                     </div>
-                    <div class="form-group">
-                        <label for="data_position">Position</label>
-                        <input class="form-control"
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label for="data_position"
+                                   class="input-group-text">Position</label>
+                        </div>
+                        <input class="form-control data_form"
                                id="data_position"
                                placeholder=""
                                autocomplete="off">
                     </div>
+
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <label for="data_location" class="input-group-text">Location</label>
+                            <label for="data_location"
+                                   class="input-group-text">Location</label>
                         </div>
                         <input class="form-control data_form"
                                id="data_location"
                                placeholder=""
                                autocomplete="off">
                     </div>
+
                     <div class="form-group">
                         <label for="data_notes">Additional info</label>
                         <textarea class="form-control"
@@ -146,10 +160,11 @@
                                   autocomplete="off"></textarea>
                     </div>
                 </form>
+
                 <button class="btn btn-primary" id="checkPage">Add to trello</button>
-                <!-- form ends -->
             </div>
         </div>
+
         <div class="tab-content" id="tab-content">
             <!-- form tabs started -->
             <div class="tab-pane fade statistics" id="stats" role="tabpanel" aria-labelledby="form-tab">
@@ -167,7 +182,9 @@
                 </div>
             </div>
         </div>
+
         <hr/>
+
         <span>
             <small>
                 <a class="text-dark normal_text" href="https://hsdeogan.com/job-tracker/" target="_blank">Website</a> |
@@ -178,7 +195,7 @@
         </span>
     </div>
 
-    <!-- successfully posted alert -->
+    <!-- success alert -->
     <div class="alert alert-success" id="post_success" role="alert">
         <h4 class="alert-heading">Success</h4>
         <p>Your job has been added to your Trello board!</p>
