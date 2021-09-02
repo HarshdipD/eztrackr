@@ -220,38 +220,36 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('data_url').value = tab.url;
         });
 
-        // FIXME: LinkedIn parse doesn't work through extension... :(
-        // updateFields(getFieldsFromDOM());
+        const code = '(' + getFieldsFromDOM + ')();';
+        chrome.tabs.executeScript({
+            code
+        }, (results) => {
+            updateFields(results);
+        });
 
         function getFieldsFromDOM() {
             let fields = []
-            // Account for Companies which have no URL/Link
             try {
-                let url = document.getElementsByClassName("jobs-unified-top-card__content--two-pane")[0].innerText.trim();
-                fields.push(url)
+                let url = document.getElementsByClassName("jobs-unified-top-card__content--two-pane")[0]
+                    .querySelector('a').querySelector('h2').innerText;
+                fields.push(url);
             } catch {
-                var childNodes = document.getElementsByClassName("jobs-details-top-card__company-info")[0].childNodes;
-                result = '';
-                for (var i = 0; i < childNodes.length; i++) {
-                    if (childNodes[i].nodeType === 3) {
-                        result += childNodes[i].data;
-                    }
-                }
-                fields.push(result.trim())
+                fields.push('');
             }
-            fields.push(document.getElementsByClassName('jobs-unified-top-card__subtitle-primary-grouping')[0].innerText)
-            fields.push(document.getElementsByClassName("jobs-details-top-card__bullet")[0].innerText.trim())
+            fields.push(document.getElementsByClassName('jobs-unified-top-card__subtitle-primary-grouping')[0]
+                .querySelectorAll('span')[0].innerText)
+            fields.push(document.getElementsByClassName('jobs-unified-top-card__subtitle-primary-grouping')[0]
+                .querySelectorAll('span')[1].innerText)
 
             return fields;
         }
 
         function updateFields(results) {
             try {
-                document.getElementById('data_company').value = results[0][0];
-                document.getElementById('data_position').value = results[0][1];
+                document.getElementById('data_position').value = results[0][0];
+                document.getElementById('data_company').value = results[0][1];
                 document.getElementById('data_location').value = results[0][2];
             } catch (error) {
-                onError(error);
             }
         }
 
