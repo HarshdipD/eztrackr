@@ -1,13 +1,14 @@
 function init() {
     var isFirefox = typeof InstallTrigger !== 'undefined';
     var isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
+
     // Firefox browser functions
-    
+
     function onError(error) {
         console.log(error);
     }
 
-    function removeTab(tab){
+    function removeTab(tab) {
         browser.tabs.remove(tab[0].id);
     }
 
@@ -21,13 +22,13 @@ function init() {
                 interactive: false,
                 scope: {read: true, write: true},
                 success: function () {
-        
-                    if(isChrome){
+
+                    if (isChrome) {
                         try {
                             chrome.extension.sendMessage({
                                 command: 'saveToken',
                                 token: localStorage.getItem('trello_token')
-                            }, function(data) {
+                            }, function (data) {
                                 chrome.tabs.getCurrent(function (tab) {
                                     chrome.tabs.remove(tab.id)
                                 });
@@ -36,22 +37,22 @@ function init() {
                             // do nothing
                         }
                     }
-           
-                    if(isFirefox){
+
+                    if (isFirefox) {
                         try {
-                            browser.runtime.sendMessage(null,{
+                            browser.runtime.sendMessage(null, {
                                 command: 'saveToken',
                                 token: localStorage.getItem('trello_token')
                             });
                             let querying = browser.tabs.query({currentWindow: true, active: true});
                             querying.then(removeTab, onError);
-                        } catch (error){
-                            
+                        } catch (error) {
+
                         }
 
-                        
+
                     }
-                    
+
                 },
                 error: function () {
                     alert("Failed to authorize with Trello.")

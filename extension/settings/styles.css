@@ -1,3 +1,15 @@
+body {
+    font-family: 'Lato', sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700 !important;
+}
+
+button {
+    border-radius: 60px !important;
+}
+
 :root {
     --primary-color: #6FA8DC;
     --secondary-color: #dfdfdf;
@@ -32,10 +44,13 @@ html, body {
     justify-content: space-between;
 }
 
-header {
-    padding: 2rem;
+nav {
+    height: 10vh;
+}
+
+.navbar-header {
+    width: 100%;
     text-align: center;
-    background-color: var(--primary-color);
 }
 
 main {
