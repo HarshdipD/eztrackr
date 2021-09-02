@@ -1,5 +1,5 @@
 body {
-    width: 350px;
+    width: 370px;
     font-family: 'Lato', sans-serif !important;
     zoom: 0.9;
 }
@@ -12,14 +12,28 @@ nav {
     background-color: #6490af !important;
 }
 
+nav span:nth-child(2) {
+        font-size: 24px;
+}
+
 #board_missing, #board_url_div,
 #board_url_list, #oauth_ok,
-#alert_box, #post_success {
+#alert_box, #post_success, #settings {
     display: none;
+}
+
+#settings button {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 #set_board {
     margin-top: 10px;
+}
+
+hr {
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 button {

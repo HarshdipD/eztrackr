@@ -19,6 +19,7 @@
 
     <nav class="navbar navbar-dark bg-dark">
         <span class="navbar-brand mb-0 h1">eztrackr</span>
+        <span id="settings_icon">⚙️</span>
     </nav>
 
     <!-- Set up a board for first time user -->
@@ -182,18 +183,35 @@
                 </div>
             </div>
         </div>
-
-        <hr/>
-
-        <span>
-            <small>
-                <a class="text-dark normal_text" href="https://hsdeogan.com/job-tracker/" target="_blank">Website</a> |
-                <a class="text-dark normal_text" href="https://github.com/HarshdipD/job-tracker" target="_blank">
-                    GitHub</a> |
-                <a class="text-dark normal_text" href="https://ko-fi.com/hsdeogan" target="_blank"> Donate</a>
-            </small>
-        </span>
     </div>
+
+    <div class="container py-2" id="settings">
+        <h5>Settings</h5>
+        <button class="btn btn-outline-primary" id="reset_board">Choose another board</button>
+        <button class="btn btn-outline-danger" id="logout">Disconnect Trello</button>
+        <button class="btn btn-secondary" id="close_settings">Back</button>
+    </div>
+
+
+
+    <div class="container py-2">
+        <hr/>
+        <span>
+        <small>
+            <a class="text-dark normal_text" href="https://hsdeogan.com/eztrackr/" target="_blank">Website</a> <b>|</b>
+            <a class="text-dark normal_text" href="https://github.com/HarshdipD/eztrackr/issues" target="_blank">
+                Request a feature</a> <b>|</b>
+            <a class="text-dark normal_text"
+               href="https://chrome.google.com/webstore/detail/eztrackr/kdpbamlhffmfbgglmaedhopenkpgkfdg"
+               target="_blank">
+                Give review</a> <b>|</b>
+            <a class="text-dark normal_text"
+               href="https://www.paypal.com/donate/?cmd=_donations&business=ZBR894KSWNJPS&currency_code=CAD"
+               target="_blank"> Donate</a>
+        </small>
+    </span>
+    </div>
+
 
     <!-- success alert -->
     <div class="alert alert-success" id="post_success" role="alert">
@@ -204,10 +222,6 @@
         </p>
     </div>
 </div>
-
-
-<!-- TODO at 1000+ users: consider sharing to support div, that will pop up occasionally -->
-
 
 <script type="text/javascript" src="key.js"></script>
 <script type="text/javascript" src="analytics.js"></script>
