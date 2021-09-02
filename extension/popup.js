@@ -245,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 var childNodes = document.getElementsByClassName("jobs-details-top-card__company-info")[0].childNodes;
                 result = '';
                 for (var i = 0; i < childNodes.length; i++) {
-                    if (childNodes[i].nodeType == 3) {
+                    if (childNodes[i].nodeType === 3) {
                         result += childNodes[i].data;
                     }
                 }
