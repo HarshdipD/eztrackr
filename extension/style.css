@@ -1,3 +1,58 @@
+body {
+    width: 350px;
+    font-family: 'Lato', sans-serif !important;
+    zoom: 0.9;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700 !important;
+}
+
+nav {
+    background-color: #6490af !important;
+}
+
+#board_missing, #board_url_div,
+#board_url_list, #oauth_ok,
+#alert_box, #post_success {
+    display: none;
+}
+
+#set_board {
+    margin-top: 10px;
+}
+
+button {
+    width: 100%;
+}
+
+input, select, button {
+    border-radius: 60px !important;
+}
+
+input.data_form {
+    border-bottom-left-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+}
+
+.input-group-prepend label {
+    border-bottom-left-radius: 60px !important;
+    border-top-left-radius: 60px !important;
+    width: 90px;
+}
+
+.data_url {
+    width: auto !important
+}
+
+textarea {
+    border-radius: 20px !important;
+}
+
+#add_post_form {
+    margin-top: 20px;
+}
+
 .statistics {
     padding: 40px 10px;
 }
