@@ -208,6 +208,7 @@ document.addEventListener('DOMContentLoaded', function () {
      * main function to create cards
      */
     function working() {
+
         // initializing it again in case this is first time of use
         board_id = localStorage.getItem('board_id');
 
@@ -216,6 +217,7 @@ document.addEventListener('DOMContentLoaded', function () {
         anchor_1.href = localStorage.getItem('user_board_url') ? `${user_board_url}` : 'https://trello.com/';
         anchor_2.href = localStorage.getItem('user_board_url') ? `${user_board_url}` : 'https://trello.com/';
 
+        settings_icon.style.display = 'block';
         oauth_ok_div.style.display = 'block';
         board_missing_div.style.display = 'none';
 

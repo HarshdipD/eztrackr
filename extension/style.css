@@ -18,7 +18,7 @@ nav span:nth-child(2) {
 
 #board_missing, #board_url_div,
 #board_url_list, #oauth_ok,
-#alert_box, #post_success, #settings {
+#alert_box, #post_success, #settings, #settings_icon {
     display: none;
 }
 

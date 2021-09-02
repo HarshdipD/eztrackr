@@ -1,22 +1,21 @@
 # eztrackr
 A Chrome extension that saves your jobs to your Trello boards ✨
-<br /><br />
-Add the job you just applied to right from the same tab and it will add it to your Trello board! You can then visit this board which will keep track of all your job applications.
-<br />
-You have an option to add your own board, or it can create a nice one for you. 
-<br />
+<br/><br/>
+Organize your job hunt efficiently by adding it to a Trello board right from the same tab!
+<br/>
+
+Use any existing boards, or automate a ready to go board with necessary lists.
+<br/>
 The extension also shows you current statistics 📈, and even auto-fills the fields if you're on LinkedIn jobs! 🤩
 
 
-## Install it here:
+## Install it here
 🌐 Chrome: <a href="https://chrome.google.com/webstore/detail/eztrackr/kdpbamlhffmfbgglmaedhopenkpgkfdg" target="_blank">Webstore link</a>
 <br />
-🌐 Firefox: We're working on a fix for this browser. Stay tuned or join in to help!
-<br />
-<br />
+
 <span>
-<img src="https://i.imgur.com/6qcSRTj.jpg" />
-<img src="https://i.imgur.com/9DuIP3t.jpg" />
+<img src="https://i.imgur.com/6qcSRTj.jpg" alt="pic-1" />
+<img src="https://i.imgur.com/9DuIP3t.jpg" alt="pic-2" />
 </span>
 
 ## Support
@@ -35,24 +34,20 @@ If you'd like to report a bug or recommend a feature, please add it [on the issu
 <br />
 If you'd like to add a feature or fix any existing bugs, read ahead:
 
-### Setting it up:
+### Setting it up
 🔧 Here are a few steps on how to set this extension up:
-#### Chrome: 
+
 1. Make sure you have enabled developer mode in Chrome at `chrome://extensions`
-2. Clone this repo, and press 'Load unpacked' to load this extension from the extension folder
-3. Go to key.js and replace the field of your own `APP_KEY`. It can found out at https://trello.com/app-key
-4. Add the Chrome extension ID to Allowed origins section in the same Trello page (eg. `chrome-extension://okpdemdmpglaapjpbdphmfhlfjbilbpc`)
+2. Clone this repo, and press 'Load unpacked' from `chrome://extensions` to load this extension 
+3. Go to `key.js` and replace the field of your own `APP_KEY`. It can found out at https://trello.com/app-key
+4. Add the Chrome extension ID to Allowed origins section in the same Trello page (e.g. `chrome-extension://okpdemdmpglaapjpbdphmfhlfjbilbpc`)
 
-#### Firefox:
-1. Clone this repo, go to `about:debugging#/runtime/this-firefox`, click 'Load Temporary Add-on...' and select any file from the directory.
-3. Go to key.js and replace the field of your own `APP_KEY`. It can found out at https://trello.com/app-key
-4. Add the mozilla add-on ID to Allowed origins section in the same Trello page (eg. `moz-extension://1db0695c-a2f0-43bc-a02d-12e23ee3d721`)
+That's it! You should be able to use the extension and see your cards on Trello.<br />
+<b>Don't forget</b> to add the ID in app-key page, or you will receive an `invalid_redirect` error during authorization. 
 
-That's it! You should be able to use the extension and see your cards being saved on Trello.<br />
-<b>Don't forget</b> to add the ID in app-key page, or you will recieve an `invalid_redirect` error during authorization. 
-
-## Contributors:
+## Contributors
 1. <a href="https://github.com/jere-mie">Jeremie Bornais</a> for helping with the name and logo of the extension
 2. <a href="https://github.com/JameelJiwani">Jameel Jiwani</a> for helping me with Trello oauth and common JavaScript issues!
 <br />
-Other contributers can be found at <a href="https://github.com/HarshdipD/job-tracker">GitHub</a>
+   
+Other contributors can be found at <a href="https://github.com/HarshdipD/job-tracker">GitHub</a>
