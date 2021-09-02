@@ -3,31 +3,72 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
     <title>Eztrackr</title>
     <link rel="stylesheet" href="lib/bootstrap-4.4.1/css/bootstrap.css">
     <script src="lib/require.js"></script>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key="></script>
-
-    <style>
-        body {
-            width: 350px;
-            zoom: 0.75;
-        }
-    </style>
 </head>
 
 <body>
-    <div class="container py-2" id="oauth_ok" style="display: none;">
+<div>
+
+    <nav class="navbar navbar-light bg-light">
+        <span class="navbar-brand mb-0 h1">eztrackr</span>
+    </nav>
+
+    <!-- Set up a board for first time user -->
+    <div class="container p-3" id="board_missing">
+        <h5>Set up a board</h5>
+        <p>Let's start by setting up a Trello board!</p>
+        <p>
+            You can check your boards at <a href="https://trello.com/" target="_blank">Trello's website</a>.
+        </p>
+        <form>
+            <div class="form-check form-check-inline mb-2">
+                <input class="form-check-input" type="radio" id="create_board" name="board_choice" value="create_board"
+                       checked>
+                <label class="form-check-label" for="create_board">Create a new board</label>
+            </div>
+
+            <div class="form-check form-check-inline mb-2">
+                <input class="form-check-input" type="radio" id="use_existing_board" name="board_choice"
+                       value="use_existing_board">
+                <label class="form-check-label" for="use_existing_board">Enter your board id</label><br>
+            </div>
+            <div class="form-group" id="board_url_div">
+                <input type="url" class="form-control mt-2 mb-2" id="board_url"
+                       placeholder="https://trello.com/b/my_board_id" autocomplete="off">
+                <span id="board_url_error" class="text-danger"></span>
+            </div>
+
+            <div class="form-check form-check-inline mb-2">
+                <input class="form-check-input" type="radio" id="use_board_list" name="board_choice"
+                       value="use_board_list">
+                <label class="form-check-label" for="use_board_list">Select from your board list</label><br>
+            </div>
+            <div class="form-group" id="board_url_list">
+                <label id="board_label"></label>
+                <select class="form-control" id="list_boards">
+                </select>
+            </div>
+        </form>
+        <button class="btn btn-success" id="set_board">Continue</button>
+    </div>
+
+    <div class="container py-2" id="oauth_ok">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active show" id="home-tab" data-toggle="tab" href="#form" role="tab"
-                    aria-controls="form" aria-selected="true">Add Job</a>
+                   aria-controls="form" aria-selected="true">Add Job</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="profile-tab" data-toggle="tab" href="#stats" role="tab" aria-controls="stats"
-                    aria-selected="false">Stats</a>
+                   aria-selected="false">Stats</a>
             </li>
         </ul>
 
@@ -39,7 +80,7 @@
                 <h4 class="display-4">Eztrackr</h4>
 
                 <!-- alert box -->
-                <div class="alert alert-danger" id="alert_box" role="alert" style="display: none;">
+                <div class="alert alert-danger" id="alert_box" role="alert">
                     <h4 class="alert-heading">Error</h4>
                     <p id="alert_msg"></p>
                     <button class="btn btn-danger btn-sm" id="close_alert">Close</button>
@@ -81,7 +122,9 @@
             <!-- form tabs started -->
             <div class="tab-pane fade statistics" id="stats" role="tabpanel" aria-labelledby="form-tab">
                 <p style="font-size: 1em">Here are the current number of cards in your lists. <a id="user_board_url_1"
-                        target="_blank" href="https://trello.com">Click here</a> to check out your
+                                                                                                 target="_blank"
+                                                                                                 href="https://trello.com">Click
+                    here</a> to check out your
                     board at Trello.</p>
                 <div class="text-center" id="loader">
                     <div class="spinner-border text-primary" role="status">
@@ -92,7 +135,7 @@
                 </div>
             </div>
         </div>
-        <hr />
+        <hr/>
         <span>
             <small>
                 <a class="text-dark normal_text" href="https://hsdeogan.com/job-tracker/" target="_blank">Website</a> |
@@ -103,62 +146,26 @@
         </span>
     </div>
 
-    <!-- Set up a board for first time user -->
-    <div class="container py-2" id="board_missing" style="display: none;">
-        <p>It looks like you don't have a board set up. We can create one for you or you can choose one of your
-            existing
-            boards.
-            If you choose to create a new one, you can check it at <a href="https://trello.com/"
-                target="_blank">Trello's website</a> once created.
-        </p>
-        <form>
-            <div class="form-check form-check-inline mb-2">
-                <input class="form-check-input" type="radio" id="create_board" name="board_choice" value="create_board"
-                    checked>
-                <label class="form-check-label" for="create_board">Create a new board</label>
-            </div>
-            <div class="form-check form-check-inline mb-2">
-                <input class="form-check-input" type="radio" id="use_existing_board" name="board_choice"
-                    value="use_existing_board">
-                <label class="form-check-label" for="use_existing_board">Enter your board id</label><br>
-            </div>
-            <div class="form-check form-check-inline mb-2">
-                <input class="form-check-input" type="radio" id="use_board_list" name="board_choice"
-                    value="use_board_list">
-                <label class="form-check-label" for="use_board_list">Select from your board list</label><br>
-            </div>
-            <div class="form-group" id="board_url_div" style="display: none;">
-                <input type="url" class="form-control mt-2 mb-2" id="board_url"
-                    placeholder="https://trello.com/b/my_board_id" autocomplete="off">
-                <span id="board_url_error" class="text-danger"></span>
-            </div>
-            <div class="form-group" id="board_url_list" style="display: none;">
-                <label id="board_label"></label>
-                <select class="form-control" id="list_boards">
-                </select>
-            </div>
-        </form>
-        <button class="btn btn-success" id="set_board" style="margin-top: 10px;">Done</button>
-    </div>
-
     <!-- successfully posted alert -->
-    <div class="alert alert-success" id="post_success" role="alert" style="display: none;">
+    <div class="alert alert-success" id="post_success" role="alert">
         <h4 class="alert-heading">Success</h4>
         <p>Your job has been added to your Trello board!</p>
         <hr>
         <p class="mb-0"><a id="user_board_url_2" href="https://trello.com/" target="_blank">Click here to visit it</a>
         </p>
     </div>
+</div>
 
-    <!-- TODO at 1000+ users: consider sharing to support div, that will pop up occasionally -->
+
+<!-- TODO at 1000+ users: consider sharing to support div, that will pop up occasionally -->
 
 
-    <script type="text/javascript" src="key.js"></script>
-    <script type="text/javascript" src="analytics.js"></script>
-    <script type="text/javascript" src="lib/jquery.js"></script>
-    <script type="text/javascript" src="lib/client.js"></script>
-    <script src="popup.js"></script>
-    <script src="tabs.js"></script>
+<script type="text/javascript" src="key.js"></script>
+<script type="text/javascript" src="analytics.js"></script>
+<script type="text/javascript" src="lib/jquery.js"></script>
+<script type="text/javascript" src="lib/client.js"></script>
+<script src="popup.js"></script>
+<script src="tabs.js"></script>
 
 </body>
 

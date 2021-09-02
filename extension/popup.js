@@ -27,38 +27,38 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
     // check browser type
     var isFirefox = typeof InstallTrigger !== 'undefined';
     var isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
+
     // Firefox browser functions
-    
+
     function onError(error) {
         console.log(error);
     }
 
-    function loadTabs(tabs){
-        document.getElementById('data_url').value =  tabs[0].url;
+    function loadTabs(tabs) {
+        document.getElementById('data_url').value = tabs[0].url;
     }
 
     // end of the Firefox browser func
 
     // if token doesn't exist, go to options page and make the user authorize it
     if (!token) {
-        chrome.tabs.create({ url: chrome.extension.getURL('settings/index.html') });
+        chrome.tabs.create({url: chrome.extension.getURL('settings/index.html')});
         return true;
     }
     // if board does not exist, set up one and add it to local storage
     else if (!board_id) {
         board_set_up_function();
-    }
-    else {
+    } else {
         working();
     }
 
     async function getBoardsList() {
-    try {
-    
-            const [ boards] = await Promise.all([Trello.get(
-            `/members/me/boards?token=${token}`)]);
+        try {
+
+            const [boards] = await Promise.all([Trello.get(
+                `/members/me/boards?token=${token}`)]);
             if (boards) {
-   
+
                 let dropdown = document.getElementById('list_boards');
                 dropdown.length = 0;
                 let defaultOption = document.createElement('option');
@@ -67,17 +67,17 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
                 dropdown.selectedIndex = 0;
 
                 let option;
-                boards.map((b,idex)=>{
-                  option = document.createElement('option');
-                  option.text = b.name;
-                  option.value = b.shortLink
-                  dropdown.add(option);
-                
+                boards.map((b, idex) => {
+                    option = document.createElement('option');
+                    option.text = b.name;
+                    option.value = b.shortLink
+                    dropdown.add(option);
+
                 });
             }
-            
+
         } catch (err) {
-    
+
         }
     }
 
@@ -93,9 +93,9 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
 
             if (create_board.checked) {
                 board_create_function();
-            } else if(use_existing_board.checked) {
+            } else if (use_existing_board.checked) {
                 board_use_existing_function();
-            } else if(use_board_list.checked){
+            } else if (use_board_list.checked) {
                 board_use_existing_function();
             }
         });
@@ -141,17 +141,16 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
         board_url_list.style.display = "none";
     });
 
-    use_board_list.addEventListener('click', function(){
+    use_board_list.addEventListener('click', function () {
         board_url_div.style.display = "none";
         board_url_list.style.display = "block";
     });
 
     function board_use_existing_function() {
         var userBoardId = "";
-        if(use_existing_board.checked){
+        if (use_existing_board.checked) {
             userBoardId = extract_board_id(board_url.value);
-        }
-        else if(use_board_list.checked){
+        } else if (use_board_list.checked) {
             userBoardId = list_boards.options[list_boards.selectedIndex].value;
         }
 
@@ -238,7 +237,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
 
         // For LinkedIn, fetch comapany name, position and location by web scraping
         // To do: other common job posting websites - this would require more organized code, different function for each website.
-        if(isChrome) {
+        if (isChrome) {
             // using try & catch to handle error 
             // since Firefox does not recognize "chrome"
             try {
@@ -250,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
             }
         }
 
-        if(isFirefox){
+        if (isFirefox) {
             let querying = browser.tabs.query({currentWindow: true, active: true});
             querying.then(loadTabs, onError);
         }
@@ -287,8 +286,9 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
                 onError(error);
             }
         }
+
         const code = '(' + getFieldsFromDOM + ')();';
-        if(isChrome){
+        if (isChrome) {
             try {
                 chrome.tabs.executeScript({
                     code
@@ -300,7 +300,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
             }
         }
 
-        if(isFirefox){
+        if (isFirefox) {
             const executing = browser.tabs.executeScript({
                 code
             });
@@ -348,7 +348,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
                 displayError('Please choose a list to add the job to.');
                 document.getElementById('list_options').focus();
             }
-      
+
         }, false);
 
         function displayError(txt) {
@@ -388,5 +388,5 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
 //             componentRestrictions: countryRestrict,
 //         }
 //     )
-   
+
 // }
