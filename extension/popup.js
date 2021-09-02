@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () { // this function  starts when extension is clicked
+document.addEventListener('DOMContentLoaded', function () {
     // setting global variables
     Trello.setKey(APP_KEY);
     var token = localStorage.getItem('trello_token');
@@ -24,8 +24,7 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
         "July", "August", "September", "October", "November", "December"
     ];
     const trelloBoardUrlPattern = /https\:\/\/trello\.com\/b\/(.{8})(\/.*)?$/;
-    // check browser type
-    var isFirefox = typeof InstallTrigger !== 'undefined';
+
     var isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
 
     // Firefox browser functions
@@ -249,11 +248,6 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
             }
         }
 
-        if (isFirefox) {
-            let querying = browser.tabs.query({currentWindow: true, active: true});
-            querying.then(loadTabs, onError);
-        }
-
         function getFieldsFromDOM() {
             let fields = []
             //Account for Companies which have no URL/Link
@@ -299,13 +293,6 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
                 onError(error);
             }
         }
-
-        if (isFirefox) {
-            const executing = browser.tabs.executeScript({
-                code
-            });
-            executing.then(updateFields, onError);
-        }
         // END POPULATING FIELDS
 
 
@@ -326,11 +313,11 @@ document.addEventListener('DOMContentLoaded', function () { // this function  st
 
             let description = encodeURIComponent(`URL: ${data_url} \n Company: ${data_company} \n Position: ${data_position} \n Location: ${data_location} \n Date Applied: ${date_applied} \n\n Notes: ${data_notes}`);
 
-            if (idList != 'Choose list') {
+            if (idList !== 'Choose list') {
                 Trello.post(`/cards?key=${APP_KEY}&token=${token}&idList=${idList}&name=${data_company}&desc=${description}`)
                     .then(response => {
                         console.log("result", response);
-                        if (response.status == 400 || response.status == 401 || response.status == 403) {
+                        if (response.status === 400 || response.status === 401 || response.status === 403) {
                             // now change divs
                             displayError('There was an issue posting this card to Trello. Please try again.');
                         } else {
