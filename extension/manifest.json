@@ -21,11 +21,5 @@
     ],
     "web_accessible_resources": [
         "settings/index.html"
-    ],
-    "options_page": "settings/index.html",
-    "options_ui":{
-        "browser_style": true,
-        "chrome_style": true,
-        "page" : "popup.js"
-    }
+    ]
 }

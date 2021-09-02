@@ -11,29 +11,35 @@
   </head>
   <body>
     <div id="container">
+
         <nav class="navbar navbar-dark bg-dark">
           <div class="navbar-header">
             <a class="navbar-brand">Eztrackr</a>
           </div>
         </nav>
+
         <main>
           <section id="loggedin">
-            <p>Click the button to logout of Trello</p>
-            <button class="btn btn-primary" id="trello_helper_login">Logout</button>
+            <div class="alert alert-success" role="alert">
+              <b>Success!</b> You can start using the extension now.
+            </div>
+            <button class="btn btn-danger" id="trello_helper_login">Disconnect Trello</button>
           </section>
+
           <section id="loggedout">
             <p>
               <span>Please click the button to authorize Trello so we can save the cards for you!</span>
-              <span>Once authorized, click on the extension again.</span>
             </p>
             <button class="btn btn-primary" id="trello_helper_logout">Authorize</button>
           </section>
         </main>
+
         <footer>
           <a class="link text-dark" href="https://hsdeogan.com/eztrackr" target="_blank">Website</a>
           <a class="link text-dark" href="https://github.com/HarshdipD/eztrackr" target="_blank">GitHub</a>
           <a class="link text-dark" href="https://www.paypal.com/donate/?cmd=_donations&business=ZBR894KSWNJPS&currency_code=CAD" target="_blank">Donate</a>
         </footer>
+
     </div>
 
     <!-- scripts -->
