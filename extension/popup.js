@@ -116,6 +116,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 localStorage.setItem('board_id', response.id);
                 board_id = localStorage.getItem('board_id');
+                localStorage.setItem('user_board_url', response.url);
+                board_url = localStorage.getItem('board_url');
 
                 Trello.post(`/lists?token=${token}&name=Offer&idBoard=${board_id}`);
                 await Trello.post(`/lists?token=${token}&name=Reject&idBoard=${board_id}`);
@@ -146,6 +148,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(response => {
                     localStorage.setItem('board_id', response.id);
                     board_id = localStorage.getItem('board_id');
+                    localStorage.setItem('user_board_url', response.url);
+                    board_url = localStorage.getItem('board_url');
                     document.getElementById('set_board').textContent = 'Done!';
                     working();
                 })

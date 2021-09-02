@@ -83,7 +83,7 @@
     <div class="container py-2" id="oauth_ok">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active show" id="home-tab" data-toggle="tab" href="#form" role="tab"
+                <a class="nav-link active show" id="home-tab" data-toggle="tab" href="#add_post_form" role="tab"
                    aria-controls="form" aria-selected="true">Add Job</a>
             </li>
             <li class="nav-item">
@@ -93,45 +93,57 @@
         </ul>
 
         <div class="tab-content" id="tab-content">
-            <!-- form tabs started -->
-            <div class="tab-pane fade show active" id="form" role="tabpanel" aria-labelledby="form-tab">
-                <!-- form starts -->
 
-                <h4 class="display-4">Eztrackr</h4>
+            <div class="tab-pane fade show active" id="add_post_form" role="tabpanel" aria-labelledby="form-tab">
 
-                <!-- alert box -->
                 <div class="alert alert-danger" id="alert_box" role="alert">
                     <h4 class="alert-heading">Error</h4>
                     <p id="alert_msg"></p>
                     <button class="btn btn-danger btn-sm" id="close_alert">Close</button>
                 </div>
 
-                <!-- main form -->
                 <form>
                     <div class="form-group">
-                        <label>Choose List from your saved board</label>
+                        <label for="list_options">Choose List from your saved board</label>
                         <select class="form-control" id="list_options">
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>URL</label>
-                        <input class="form-control" id="data_url" placeholder="" autocomplete="off">
+                        <label for="data_url">URL</label>
+                        <input class="form-control"
+                               id="data_url"
+                               placeholder=""
+                               autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <label>Company</label>
-                        <input class="form-control" id="data_company" placeholder="" autocomplete="off">
+                        <label for="data_company">Company</label>
+                        <input class="form-control"
+                               id="data_company"
+                               placeholder=""
+                               autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <label>Position</label>
-                        <input class="form-control" id="data_position" placeholder="" autocomplete="off">
+                        <label for="data_position">Position</label>
+                        <input class="form-control"
+                               id="data_position"
+                               placeholder=""
+                               autocomplete="off">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label for="data_location" class="input-group-text">Location</label>
+                        </div>
+                        <input class="form-control data_form"
+                               id="data_location"
+                               placeholder=""
+                               autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <label>Location</label>
-                        <input class="form-control" id="data_location" placeholder="" autocomplete="off">
-                    </div>
-                    <div class="form-group">
-                        <label>Any notes</label>
-                        <textarea class="form-control" id="data_notes" placeholder="" autocomplete="off"></textarea>
+                        <label for="data_notes">Additional info</label>
+                        <textarea class="form-control"
+                                  id="data_notes"
+                                  placeholder=""
+                                  autocomplete="off"></textarea>
                     </div>
                 </form>
                 <button class="btn btn-primary" id="checkPage">Add to trello</button>
