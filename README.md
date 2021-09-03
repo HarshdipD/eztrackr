@@ -1,27 +1,38 @@
 # eztrackr
 A Chrome extension that saves your jobs to your Trello boards ✨
 <br/><br/>
-Organize your job hunt efficiently by adding it to a Trello board right from the same tab!
-<br/>
+Collect, track and manage your job applications from across the web with this open-source extension.
 
+Add the job you just applied to right from the same tab, and it will add it to your Trello board.
+
+## Features
+
+•  Create a ready-to-go kanban Trello board, or you can use your existing one.
+
+•  Save the posting URL, title, company, location, and more.
+
+•  Pre-populate data from LinkedIn postings - more to come soon!
+
+•  View your job statistics right from the extension 📈
+
+Organize your job hunt by installing this extension now!
 Use any existing boards, or automate a ready to go board with necessary lists.
-<br/>
-The extension also shows you current statistics 📈, and even auto-fills the fields if you're on LinkedIn jobs! 🤩
 
 
 ## Install it here
 🌐 Chrome: <a href="https://chrome.google.com/webstore/detail/eztrackr/kdpbamlhffmfbgglmaedhopenkpgkfdg" target="_blank">Webstore link</a>
+
 <br />
 
 <span>
-<img src="https://i.imgur.com/6qcSRTj.jpg" alt="pic-1" />
-<img src="https://i.imgur.com/9DuIP3t.jpg" alt="pic-2" />
+<img src="https://i.imgur.com/yYRxfTq.jpg" alt="pic-1" />
+<img src="https://i.imgur.com/r1D0syB.png" alt="pic-2" />
 </span>
 
 ## Support
 😇 You can support this project in a number of ways: 
- - 🗨️ Recommending new features on [GitHub](https://github.com/HarshdipD/job-tracker/issues)
- - 💻 Contributing (or improving) your amazing coding skills to solve bugs and add new features - [GitHub](https://github.com/HarshdipD/job-tracker/)
+ - 🗨️ Recommending new features on [GitHub](https://github.com/HarshdipD/eztrackr/issues)
+ - 💻 Contributing (or improving) your amazing coding skills to solve bugs and add new features - [GitHub](https://github.com/HarshdipD/eztrackr/)
  - 💬 Sharing it to other job seekers
  - 💖 Donating to me
     - Ko-fi - <a href="https://ko-fi.com/hsdeogan" target="_blank">hsdeogan</a>
@@ -48,6 +59,7 @@ That's it! You should be able to use the extension and see your cards on Trello.
 ## Contributors
 1. <a href="https://github.com/jere-mie">Jeremie Bornais</a> for helping with the name and logo of the extension
 2. <a href="https://github.com/JameelJiwani">Jameel Jiwani</a> for helping me with Trello oauth and common JavaScript issues!
+3. <a href="https://github.com/prakort">Prakort Lean</a> for various bug fixes, adding new features and helping with Firefox expansion.
 <br />
    
 Other contributors can be found at <a href="https://github.com/HarshdipD/job-tracker">GitHub</a>
