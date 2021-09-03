@@ -5,6 +5,13 @@ Collect, track and manage your job applications from across the web with this op
 
 Add the job you just applied to right from the same tab, and it will add it to your Trello board.
 
+<br />
+
+<span>
+<img src="https://i.imgur.com/yYRxfTq.jpg" alt="pic-1" />
+<img src="https://i.imgur.com/r1D0syB.png" alt="pic-2" />
+</span>
+
 ## Features
 
 •  Create a ready-to-go kanban Trello board, or you can use your existing one.
@@ -22,12 +29,6 @@ Use any existing boards, or automate a ready to go board with necessary lists.
 ## Install it here
 🌐 Chrome: <a href="https://chrome.google.com/webstore/detail/eztrackr/kdpbamlhffmfbgglmaedhopenkpgkfdg" target="_blank">Webstore link</a>
 
-<br />
-
-<span>
-<img src="https://i.imgur.com/yYRxfTq.jpg" alt="pic-1" />
-<img src="https://i.imgur.com/r1D0syB.png" alt="pic-2" />
-</span>
 
 ## Support
 😇 You can support this project in a number of ways: 
