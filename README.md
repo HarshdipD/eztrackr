@@ -1,3 +1,21 @@
+### Important update for eztrackr
+
+Hello everyone,
+
+I'm excited to announce that I've created a new repository that will take this project to the next level. It's been over 3 years since I started this open source project, and I'm amazed at how far it's come. Over 100 users have found it useful (45 active users as of writing this!), and I'm incredibly grateful for all of the support and feedback.
+
+I've decided to rebrand this project and create a new repository for my own personal use. This new project is private, and it will not be available on GitHub for public use or contribution.
+
+However, I want to make it clear that I have no intention of abandoning this original open source project. It will remain available on GitHub for anyone to use and contribute to.
+
+I believe in the power of open source, and I want to make sure that this project can continue to help others in the future. So if you find it useful, feel free to fork it, use it, or contribute to it in any way you see fit.
+
+Thank you again for all of your support over the years. I'm excited to see where this project goes next! ❤️
+
+&nbsp;- Harshdip Singh Deogan
+
+<hr />
+
 # eztrackr
 A Chrome extension that saves your jobs to your Trello boards ✨
 <br/><br/>
