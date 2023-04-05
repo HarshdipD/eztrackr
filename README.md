@@ -1,3 +1,8 @@
+# eztrackr
+A Chrome extension that saves your jobs to your Trello boards ✨
+
+<hr />
+
 ### Important update for eztrackr
 
 Hello everyone,
@@ -18,7 +23,8 @@ Thank you again for all of your support over the years. I'm excited to see where
 
 # eztrackr
 A Chrome extension that saves your jobs to your Trello boards ✨
-<br/><br/>
+
+<br/>
 Collect, track and manage your job applications from across the web with this open-source extension.
 
 Add the job you just applied to right from the same tab, and it will add it to your Trello board.
